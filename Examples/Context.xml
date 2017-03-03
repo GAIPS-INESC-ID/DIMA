@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+  <simulation>
+    <context>
+      <characteristic weight="0,5">intelligence</characteristic>
+      <characteristic weight="0,5">charisma</characteristic>
+    </context>
+    <agents>
+      <agent name="Ace" social_group="jock" emotional_valence="0,05" />
+      <agent name="Ace" social_group="nerd" emotional_valence="0,05" />
+      
+      <agent name="Ben" social_group="jock" emotional_valence="0,05" />
+      <agent name="Ben" social_group="nerd" emotional_valence="0,05" />
+      
+      <agent name="Cara" social_group="jock" emotional_valence="-0,05" />
+      <agent name="Cara" social_group="nerd" emotional_valence="0,05" />
+      
+      <agent name="Dan" social_group="jock" emotional_valence="0,05" />
+      <agent name="Dan" social_group="nerd" emotional_valence="0,05" />
+  </agents>
+</simulation>
