@@ -21,7 +21,6 @@ namespace DIMA_Sim
             InitializeComponent();
 
             runButton.Enabled = false;
-            saveButton.Enabled = false;
         }
 
         private Model.Simulation simulation;
@@ -253,19 +252,16 @@ namespace DIMA_Sim
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                loadButton.Enabled = false;
                 runButton.Enabled = false;
-                saveButton.Enabled = false;
 
-                messageLabel.Text = "Loading Agents...";
 
                 var xmlReader = XDocument.Load(fileDialog.FileName);
 
-                messageLabel.Text = await Task.Run(() => LoadAgents(xmlReader));
-
+                await Task.Run(() => LoadAgents(xmlReader));
+                /*
                 messageLabel.Text += " " + fileDialog.SafeFileName;
                
-                loadButton.Enabled = true;
+                loadButton.Enabled = true;*/
                 runButton.Enabled = true;
             }
         }
@@ -279,7 +275,7 @@ namespace DIMA_Sim
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                loadButton.Enabled = false;
+             /*   loadButton.Enabled = false;
                 runButton.Enabled = false;
                 saveButton.Enabled = false;
 
@@ -294,7 +290,7 @@ namespace DIMA_Sim
 
                 loadButton.Enabled = true;
                 runButton.Enabled = true;
-                saveButton.Enabled = true;
+                saveButton.Enabled = true;*/
             }
         }
 
@@ -307,8 +303,34 @@ namespace DIMA_Sim
             {
                 Export(saveDialog.FileName);
 
-                messageLabel.Text = "Exported " + saveDialog.FileName;
+             //   messageLabel.Text = "Exported " + saveDialog.FileName;
             }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            this.textBoxAgentsSource.Text = Properties.Settings.Default.AgentsSource;
+        }
+
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxAgentsSource_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.AgentsSource = textBoxAgentsSource.Text.Trim();
+            Properties.Settings.Default.Save();
         }
     }
 }
