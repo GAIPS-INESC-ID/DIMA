@@ -19,8 +19,6 @@ namespace DIMA_Sim
         public MainForm()
         {
             InitializeComponent();
-
-            runButton.Enabled = false;
         }
 
         private Model.Simulation simulation;
@@ -239,98 +237,72 @@ namespace DIMA_Sim
             }
 
             csv.AppendLine();
-
-            File.WriteAllText(filePath, csv.ToString());
-        }
-
-        private async void loadButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-
-            fileDialog.Filter = "Xml File (*.xml)|*.xml";
-            fileDialog.RestoreDirectory = true;
-
-            if (fileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                runButton.Enabled = false;
-
-
-                var xmlReader = XDocument.Load(fileDialog.FileName);
-
-                await Task.Run(() => LoadAgents(xmlReader));
-                /*
-                messageLabel.Text += " " + fileDialog.SafeFileName;
-               
-                loadButton.Enabled = true;*/
-                runButton.Enabled = true;
+                File.WriteAllText(filePath, csv.ToString());
+            }catch(Exception e)
+            {
+                MessageBox.Show(e.Message, "Error");
             }
+            
         }
 
         private async void runButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-
-            fileDialog.Filter = "Xml File (*.xml)|*.xml";
-            fileDialog.RestoreDirectory = true;
-
-            if (fileDialog.ShowDialog() == DialogResult.OK)
-            {
-             /*   loadButton.Enabled = false;
-                runButton.Enabled = false;
-                saveButton.Enabled = false;
-
-                messageLabel.Text = "Processing Context...";
-
-                var xmlReader = XDocument.Load(fileDialog.FileName);
-
-
-                messageLabel.Text = await Task.Run(() => RunContext(xmlReader, (int)numberOfRuns.Value));
-
-                messageLabel.Text += " " + fileDialog.SafeFileName;
-
-                loadButton.Enabled = true;
-                runButton.Enabled = true;
-                saveButton.Enabled = true;*/
-            }
-        }
-
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "Csv File (*.csv)|*.csv";
-
-            if (saveDialog.ShowDialog() == DialogResult.OK)
-            {
-                Export(saveDialog.FileName);
-
-             //   messageLabel.Text = "Exported " + saveDialog.FileName;
-            }
+            var xmlReader = XDocument.Load(textBoxAgentsSource.Text);
+            await Task.Run(() => LoadAgents(xmlReader));
+            xmlReader = XDocument.Load(textBoxContextSource.Text);
+            await Task.Run(() => RunContext(xmlReader, (int)numberOfRuns.Value));
+            
+            Export(textBoxOutputFolder.Text + string.Format("\\output-{0:yyyy-MM-dd_hh-mm-ss}.csv", DateTime.Now));
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.textBoxAgentsSource.Text = Properties.Settings.Default.AgentsSource;
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxAgentsSource_TextChanged(object sender, EventArgs e)
-        {
-            
+            this.textBoxContextSource.Text = Properties.Settings.Default.ContextSource;
+            this.textBoxOutputFolder.Text = Properties.Settings.Default.OutputFolder;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.AgentsSource = textBoxAgentsSource.Text.Trim();
+            Properties.Settings.Default.ContextSource = textBoxContextSource.Text.Trim();
+            Properties.Settings.Default.OutputFolder = textBoxOutputFolder.Text.Trim();
+            Properties.Settings.Default.Steps = numberOfRuns.Value;
             Properties.Settings.Default.Save();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var res = openFileDialog.ShowDialog();
+            if(res == DialogResult.OK)
+            {
+                textBoxAgentsSource.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            var res = openFileDialog.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                textBoxContextSource.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    textBoxOutputFolder.Text = fbd.SelectedPath;
+                }
+            }
         }
     }
 }

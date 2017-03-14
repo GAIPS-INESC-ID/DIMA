@@ -31,15 +31,19 @@
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.runButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBoxOutputFolder = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxContextSource = new System.Windows.Forms.TextBox();
             this.textBoxAgentsSource = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.numberOfRuns = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfRuns)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -53,9 +57,11 @@
             // 
             // runButton
             // 
-            this.runButton.Location = new System.Drawing.Point(13, 118);
+            this.runButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.runButton.Location = new System.Drawing.Point(9, 118);
             this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(67, 28);
+            this.runButton.Size = new System.Drawing.Size(476, 28);
             this.runButton.TabIndex = 2;
             this.runButton.Text = "Run";
             this.runButton.UseVisualStyleBackColor = true;
@@ -63,10 +69,13 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.textBoxOutputFolder);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.textBoxContextSource);
             this.groupBox1.Controls.Add(this.textBoxAgentsSource);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
@@ -75,19 +84,52 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(491, 283);
+            this.groupBox1.Size = new System.Drawing.Size(491, 162);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Simulation";
+            this.groupBox1.Text = "Input";
             // 
-            // textBox3
+            // button3
             // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button3.Location = new System.Drawing.Point(455, 82);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(27, 20);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "...";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(455, 53);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(27, 19);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "...";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(455, 25);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(27, 20);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBoxOutputFolder
+            // 
+            this.textBoxOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox3.Location = new System.Drawing.Point(190, 81);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(295, 20);
-            this.textBox3.TabIndex = 10;
+            this.textBoxOutputFolder.Location = new System.Drawing.Point(190, 81);
+            this.textBoxOutputFolder.Name = "textBoxOutputFolder";
+            this.textBoxOutputFolder.Size = new System.Drawing.Size(259, 20);
+            this.textBoxOutputFolder.TabIndex = 10;
             // 
             // label4
             // 
@@ -106,16 +148,15 @@
             this.label3.Size = new System.Drawing.Size(37, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Steps:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // textBox2
+            // textBoxContextSource
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxContextSource.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(59, 53);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(426, 20);
-            this.textBox2.TabIndex = 7;
+            this.textBoxContextSource.Location = new System.Drawing.Point(59, 53);
+            this.textBoxContextSource.Name = "textBoxContextSource";
+            this.textBoxContextSource.Size = new System.Drawing.Size(390, 20);
+            this.textBoxContextSource.TabIndex = 7;
             // 
             // textBoxAgentsSource
             // 
@@ -123,9 +164,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxAgentsSource.Location = new System.Drawing.Point(59, 25);
             this.textBoxAgentsSource.Name = "textBoxAgentsSource";
-            this.textBoxAgentsSource.Size = new System.Drawing.Size(426, 20);
+            this.textBoxAgentsSource.Size = new System.Drawing.Size(390, 20);
             this.textBoxAgentsSource.TabIndex = 6;
-            this.textBoxAgentsSource.TextChanged += new System.EventHandler(this.textBoxAgentsSource_TextChanged);
             // 
             // label2
             // 
@@ -165,25 +205,36 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 83.55556F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.44444F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 347);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 456);
             this.tableLayoutPanel1.TabIndex = 5;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox2.Location = new System.Drawing.Point(3, 171);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(491, 282);
+            this.groupBox2.TabIndex = 5;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Output";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 347);
+            this.ClientSize = new System.Drawing.Size(497, 456);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(513, 495);
             this.Name = "MainForm";
             this.Text = "DIMA Simulation";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -206,10 +257,14 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxContextSource;
         private System.Windows.Forms.TextBox textBoxAgentsSource;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBoxOutputFolder;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
