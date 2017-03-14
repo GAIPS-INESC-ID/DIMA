@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DIMA_Sim.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,6 +24,9 @@ namespace DIMA_Sim
 
         private Model.Simulation simulation;
         private Model.Context simulationContext;
+
+
+
 
         private string LoadAgents(XDocument xmlReader)
         {
@@ -101,7 +105,7 @@ namespace DIMA_Sim
             csv.AppendLine();
             */
 
-            
+
             foreach (var characteristic in simulationContext.relevantCharacteristcs)
             {
                 csv.AppendFormat(ci, "characteristic '{0}'\t", characteristic.name);
@@ -240,21 +244,32 @@ namespace DIMA_Sim
             try
             {
                 File.WriteAllText(filePath, csv.ToString());
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error");
             }
-            
+
         }
 
         private async void runButton_Click(object sender, EventArgs e)
         {
-            var xmlReader = XDocument.Load(textBoxAgentsSource.Text);
-            await Task.Run(() => LoadAgents(xmlReader));
-            xmlReader = XDocument.Load(textBoxContextSource.Text);
-            await Task.Run(() => RunContext(xmlReader, (int)numberOfRuns.Value));
-            
-            Export(textBoxOutputFolder.Text + string.Format("\\output-{0:yyyy-MM-dd_hh-mm-ss}.csv", DateTime.Now));
+            textBoxOutputFile.Text = string.Empty;
+            try
+            {
+                var xmlReader = XDocument.Load(textBoxAgentsSource.Text);
+                await Task.Run(() => LoadAgents(xmlReader));
+                xmlReader = XDocument.Load(textBoxContextSource.Text);
+                await Task.Run(() => RunContext(xmlReader, (int)numberOfRuns.Value));
+
+                var filename = textBoxOutputFolder.Text + string.Format("\\output-{0:yyyy-MM-dd_hh-mm-ss}.csv", DateTime.Now);
+                Export(filename);
+                textBoxOutputFile.Text = "Output generated at '" + filename + "'";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -262,6 +277,7 @@ namespace DIMA_Sim
             this.textBoxAgentsSource.Text = Properties.Settings.Default.AgentsSource;
             this.textBoxContextSource.Text = Properties.Settings.Default.ContextSource;
             this.textBoxOutputFolder.Text = Properties.Settings.Default.OutputFolder;
+            this.numberOfRuns.Value = Properties.Settings.Default.Steps;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -276,7 +292,7 @@ namespace DIMA_Sim
         private void button1_Click(object sender, EventArgs e)
         {
             var res = openFileDialog.ShowDialog();
-            if(res == DialogResult.OK)
+            if (res == DialogResult.OK)
             {
                 textBoxAgentsSource.Text = openFileDialog.FileName;
             }
@@ -303,6 +319,83 @@ namespace DIMA_Sim
                     textBoxOutputFolder.Text = fbd.SelectedPath;
                 }
             }
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void DisplayCharacteristicsChart()
+        {
+            this.chart1.Series.Clear();
+            this.chart1.Legends.Clear();
+            this.chart1.ChartAreas.Clear();
+            this.chart1.Titles.Clear();
+
+            var axisX = new System.Windows.Forms.DataVisualization.Charting.Axis
+            {
+                Interval = 10,
+                Minimum = Consts.CHARACTERISTIC_MIN_VALUE,
+                Maximum = Consts.CHARACTERISTIC_MAX_VALUE
+            };
+
+            var axisY = new System.Windows.Forms.DataVisualization.Charting.Axis
+            {
+                Interval = 10,
+                Minimum = Consts.CHARACTERISTIC_MIN_VALUE,
+                Maximum = Consts.CHARACTERISTIC_MAX_VALUE,
+            };
+
+            var chartArea = new System.Windows.Forms.DataVisualization.Charting.ChartArea { AxisX = axisX, AxisY = axisY };
+            chartArea.AxisX.Title = simulationContext.relevantCharacteristcs[0].name;
+            chartArea.AxisY.Title = simulationContext.relevantCharacteristcs[1].name;
+
+            var charTitle = new System.Windows.Forms.DataVisualization.Charting.Title { Name = "Characteristics", Text = "Characteristics", Visible = true };
+            var legends1 = new System.Windows.Forms.DataVisualization.Charting.Legend { Name = "Legenda" };
+
+            for (int i = 0; i < simulation.agents.Count(); i++)
+            {
+                var series = new System.Windows.Forms.DataVisualization.Charting.Series
+                {
+                    Name = simulation.agents[i].name,
+                    Color = Consts.COLORS[i],
+                    BorderWidth = 5,
+                    MarkerSize = 10,
+                    IsVisibleInLegend = true,
+                    ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point
+                };
+                series.Points.AddXY(
+                    simulation.agents[i].characteristics[simulationContext.relevantCharacteristcs[0]],
+                    simulation.agents[i].characteristics[simulationContext.relevantCharacteristcs[1]]);
+                this.chart1.Series.Add(series);
+            }
+
+            this.chart1.ChartAreas.Add(chartArea);
+            this.chart1.Titles.Add(charTitle);
+            this.chart1.Legends.Add(legends1);
+            
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (comboBox1.SelectedItem != null)
+                {
+                    this.DisplayCharacteristicsChart();
+                }
+            }catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error");
+            }
+            
+        }
+
+        private void chart1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

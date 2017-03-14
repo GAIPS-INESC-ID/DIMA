@@ -37,6 +37,10 @@
           <characteristic name="intelligence">100</characteristic>
           <characteristic name="charisma">0</characteristic>
         </social_group>
+        <social_group name="jock">
+          <characteristic name="intelligence">0</characteristic>
+          <characteristic name="charisma">100</characteristic>
+        </social_group>
       </knowledge_base>
     </agent>
     <agent name="Dan">

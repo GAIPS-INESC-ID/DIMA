@@ -53,6 +53,7 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Characteristic.cs" />
+    <Compile Include="Model\Consts.cs" />
     <Compile Include="Model\Context.cs" />
     <Compile Include="Model\Simulation.cs" />
     <Compile Include="Model\SocialGroup.cs" />
@@ -84,7 +85,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Examples\Agents.xml" />
+    <Content Include="Examples\Agents-NoKB.xml" />
+    <Content Include="Examples\Agents-Original.xml" />
     <Content Include="Examples\Context.xml" />
   </ItemGroup>
   <ItemGroup>

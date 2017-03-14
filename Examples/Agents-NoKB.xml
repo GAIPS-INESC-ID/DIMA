@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<simulation>
+  <agents>
+    <agent name="Ace">
+      <characteristic name="intelligence">92</characteristic>
+      <characteristic name="charisma">11</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Ben">
+      <characteristic name="intelligence">75</characteristic>
+      <characteristic name="charisma">32</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Cara">
+      <characteristic name="intelligence">33</characteristic>
+      <characteristic name="charisma">87</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Dan">
+      <characteristic name="intelligence">23</characteristic>
+      <characteristic name="charisma">98</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+  </agents>
+  <properties>
+    <normative_match_distance>0,4</normative_match_distance>
+    <distance_constraint>0,4</distance_constraint>
+    <comparative_fit_alfa>0,5</comparative_fit_alfa>
+    <comparative_fit_beta>0,5</comparative_fit_beta>
+  </properties>
+</simulation>
