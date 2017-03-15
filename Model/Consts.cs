@@ -11,7 +11,7 @@ namespace DIMA_Sim.Model
     {
         public readonly static int CHARACTERISTIC_MAX_VALUE = 100;
         public readonly static int CHARACTERISTIC_MIN_VALUE = 0;
-        public readonly static Color[] COLORS = { Color.Blue, Color.Crimson, Color.Red, Color.Pink, Color.Green, Color.Gold, Color.Orange };
+        public readonly static Color[] COLORS = { Color.Blue, Color.Crimson, Color.DarkGreen, Color.Pink, Color.Green, Color.Gold, Color.Orange };
 
     }
 }

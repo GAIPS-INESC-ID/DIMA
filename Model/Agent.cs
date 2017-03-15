@@ -14,7 +14,7 @@ namespace DIMA_Sim.Model
 
         private int numAdhocGroups;
 
-        private struct ClusterMean
+        public struct ClusterMean
         {
             public ClusterMean(int numDimensions)
             {
@@ -32,7 +32,7 @@ namespace DIMA_Sim.Model
             public SocialGroup matchedGroup;
         }
 
-        private struct AgentCluster
+        public struct AgentCluster
         {
             public AgentCluster(Agent agent)
             {
@@ -45,8 +45,8 @@ namespace DIMA_Sim.Model
         
         }
 
-        private List<AgentCluster> agentsCluster;
-        private List<ClusterMean> clusterMeans;
+        public List<AgentCluster> agentsCluster;
+        public List<ClusterMean> clusterMeans;
 
         public struct KbExportData
         {
@@ -190,8 +190,9 @@ namespace DIMA_Sim.Model
             if (float.IsNaN(selfGroup.accessibility))
                 selfGroup.accessibility = 0.0f;
 
-            if (selfGroup.isAdHoc)
-                knowledgeBase.Remove(selfGroup);
+            /* Unsure why this was here
+             * if (selfGroup.isAdHoc)
+                knowledgeBase.Remove(selfGroup);*/
         }
 
         public void NormalizeAccessibility()
@@ -356,7 +357,7 @@ namespace DIMA_Sim.Model
 
                     adhocGroup.characteristics = new Dictionary<Characteristic, float>();
 
-                    adhocGroup.name = "Unfamiliar_Group_" + numAdhocGroups;
+                    adhocGroup.name = "Group_" + numAdhocGroups;
 
                     for (int i = 0; i < numDimensions; i++)
                     {

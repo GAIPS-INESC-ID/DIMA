@@ -24,10 +24,7 @@ namespace DIMA_Sim
 
         private Model.Simulation simulation;
         private Model.Context simulationContext;
-
-
-
-
+        
         private string LoadAgents(XDocument xmlReader)
         {
             try
@@ -265,6 +262,7 @@ namespace DIMA_Sim
                 var filename = textBoxOutputFolder.Text + string.Format("\\output-{0:yyyy-MM-dd_hh-mm-ss}.csv", DateTime.Now);
                 Export(filename);
                 textBoxOutputFile.Text = "Output generated at '" + filename + "'";
+                this.comboBox1_SelectedIndexChanged(sender, e);
             }
             catch (Exception ex)
             {
@@ -357,10 +355,11 @@ namespace DIMA_Sim
 
             for (int i = 0; i < simulation.agents.Count(); i++)
             {
+                int clusterPos = simulation.agents[i].GetSelfCluster();
                 var series = new System.Windows.Forms.DataVisualization.Charting.Series
                 {
                     Name = simulation.agents[i].name,
-                    Color = Consts.COLORS[i],
+                    Color = Consts.COLORS[clusterPos],
                     BorderWidth = 5,
                     MarkerSize = 10,
                     IsVisibleInLegend = true,
@@ -372,6 +371,23 @@ namespace DIMA_Sim
                 this.chart1.Series.Add(series);
             }
 
+            //Clusters
+            for (int i = 0; i < simulation.agents[0].clusterMeans.Count(); i++)
+            {
+                var series = new System.Windows.Forms.DataVisualization.Charting.Series
+                {
+                    Name = "Cluster " + (i + 1),
+                    Color = Consts.COLORS[i],
+                    BorderWidth = 5,
+                    MarkerSize = 10,
+                    IsVisibleInLegend = true,
+                    ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point
+                };
+                series.Points.AddXY(
+                    simulation.agents[0].clusterMeans[i].mean[0],
+                    simulation.agents[0].clusterMeans[i].mean[1]);
+                this.chart1.Series.Add(series);
+            }
             this.chart1.ChartAreas.Add(chartArea);
             this.chart1.Titles.Add(charTitle);
             this.chart1.Legends.Add(legends1);

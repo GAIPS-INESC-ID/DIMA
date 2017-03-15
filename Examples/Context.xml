@@ -5,16 +5,21 @@
       <characteristic weight="0,5">charisma</characteristic>
     </context>
     <agents>
-      <agent name="Ace" social_group="jock" emotional_valence="0,05" />
-      <agent name="Ace" social_group="nerd" emotional_valence="0,05" />
+      <agent name="Ace" social_group="jock" emotional_valence="0" />
+      <agent name="Ace" social_group="nerd" emotional_valence="0" />
       
-      <agent name="Ben" social_group="jock" emotional_valence="0,05" />
-      <agent name="Ben" social_group="nerd" emotional_valence="0,05" />
+      <agent name="Ben" social_group="jock" emotional_valence="0" />
+      <agent name="Ben" social_group="nerd" emotional_valence="0" />
+      <agent name="Cara" social_group="jock" emotional_valence="0" />
+      <agent name="Cara" social_group="nerd" emotional_valence="0" />
       
-      <agent name="Cara" social_group="jock" emotional_valence="-0,05" />
-      <agent name="Cara" social_group="nerd" emotional_valence="0,05" />
-      
-      <agent name="Dan" social_group="jock" emotional_valence="0,05" />
-      <agent name="Dan" social_group="nerd" emotional_valence="0,05" />
+      <agent name="Dan" social_group="jock" emotional_valence="0" />
+      <agent name="Dan" social_group="nerd" emotional_valence="0" />
+            
+      <agent name="Sam" social_group="jock" emotional_valence="0" />
+      <agent name="Sam" social_group="nerd" emotional_valence="0" />
+
+      <agent name="Mary" social_group="jock" emotional_valence="0" />
+      <agent name="Mary" social_group="nerd" emotional_valence="0" />
   </agents>
 </simulation>
