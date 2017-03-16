@@ -255,6 +255,7 @@ namespace DIMA_Sim
         {
             this.comboBox1.Items.Clear();
             this.comboBox1.Items.Add("Characteristics");
+            this.comboBox1.Items.Add("Wealth");
             for (int i = 0; i < simulation.agents[0].clusterMeans.Count; i++)
             {
                 this.comboBox1.Items.Add("Group " + (i + 1));
@@ -474,6 +475,43 @@ namespace DIMA_Sim
         }
 
 
+        private void DisplayWealthGroupChart()
+        {
+            ClearChart();
+
+            var chartArea = new ChartArea
+            {
+                AxisX = new Axis { Title = "Step" },
+                AxisY = new Axis { Title = "Wealth"},
+            };
+
+            var charTitle = new Title { Text = "Group Wealth"};
+
+            //Groups
+            for (int i = 0; i < simulation.agents[0].knowledgeBase.Count(); i++)
+            {
+                var series = new Series
+                {
+                    Name = simulation.agents[0].knowledgeBase[i].name,
+                    Color = Consts.COLORS[i],
+                    BorderWidth = 5,
+                    MarkerSize = 10,
+                    IsVisibleInLegend = true,
+                    ChartType = SeriesChartType.Point
+                };
+
+                foreach (var data in simulation.agents[i].exportData)
+                {
+
+                }
+                this.chart1.Series.Add(series);
+            }
+
+            this.chart1.Legends.Add(new Legend { Title = "Group" });
+            this.chart1.ChartAreas.Add(chartArea);
+            this.chart1.Titles.Add(charTitle);
+        }
+
 
         private void DisplayAgentChart(string agentName)
         {
@@ -541,6 +579,10 @@ namespace DIMA_Sim
                         var str = comboBox1.SelectedItem.ToString();
                         var words = str.Split();
                         DisplayAgentChart(words[1]);
+                    }
+                    if (comboBox1.SelectedItem.ToString().Contains("Wealth"))
+                    {
+                        DisplayWealthGroupChart();
                     }
                 }
             }

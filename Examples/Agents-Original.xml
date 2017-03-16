@@ -57,6 +57,34 @@
         </social_group>
       </knowledge_base>
     </agent>
+      <agent name="Sam">
+        <characteristic name="Intelligence">23</characteristic>
+        <characteristic name="Charisma">98</characteristic>
+        <knowledge_base>
+          <social_group name="nerd 2">
+            <characteristic name="Intelligence">100</characteristic>
+            <characteristic name="Charisma">0</characteristic>
+          </social_group>
+          <social_group name="jock 1">
+            <characteristic name="Intelligence">0</characteristic>
+            <characteristic name="Charisma">100</characteristic>
+          </social_group>
+        </knowledge_base>
+      </agent>
+        <agent name="Mary">
+          <characteristic name="Intelligence">23</characteristic>
+          <characteristic name="Charisma">98</characteristic>
+          <knowledge_base>
+            <social_group name="nerd 2">
+              <characteristic name="Intelligence">100</characteristic>
+              <characteristic name="Charisma">0</characteristic>
+            </social_group>
+            <social_group name="jock 1">
+              <characteristic name="Intelligence">0</characteristic>
+              <characteristic name="Charisma">100</characteristic>
+            </social_group>
+          </knowledge_base>
+    </agent>
   </agents>
   <properties>
     <normative_match_distance>0,4</normative_match_distance>

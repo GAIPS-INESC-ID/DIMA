@@ -12,6 +12,7 @@ namespace DIMA_Sim.Model
         public List<Characteristic> relevantCharacteristcs;
 
         public float defaultValence;
+        public float wealthIncrement;
         public Dictionary<string, Dictionary<string, float>> agentsValences;
         public List<Agent> contextAgents;
 
@@ -40,6 +41,7 @@ namespace DIMA_Sim.Model
             }
 
             defaultValence = float.Parse(xmlReader.Root.Element("default_emotional_valence").Attribute("value").Value);
+            wealthIncrement = float.Parse(xmlReader.Root.Element("wealth_increment").Attribute("value").Value);
             agentsValences = new Dictionary<string, Dictionary<string, float>>();
 
             foreach (var element in xmlReader.Root.Element("agents").Elements("agent"))

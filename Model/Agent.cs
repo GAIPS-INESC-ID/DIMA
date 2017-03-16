@@ -9,6 +9,7 @@ namespace DIMA_Sim.Model
     class Agent
     {
         public string name;
+        public float wealth;
         public Dictionary<Characteristic, float> characteristics;
         public List<SocialGroup> knowledgeBase;
 
@@ -171,29 +172,50 @@ namespace DIMA_Sim.Model
             return selfGroup.accessibility;
         }
 
+        private float DetermineInteractionEffect(string otherAgentGroup)
+        {
+            if (otherAgentGroup == null) return 0.0f;
+
+            if(otherAgentGroup != selfGroup.name)
+            {
+                return  this.selfGroup.salience * 0.1f; //we divide by 10 to attenuate the impact
+            }else
+            {
+                return this.selfGroup.salience * -0.1f;
+            }
+        }
 
         public void UpdateAccessibility(Context currentContext)
         {
             if (selfGroup == null)
                 return;
 
-
-            var intensity = 0.0f;
-
             //New Interaction
             var randomGen = new Random(Guid.NewGuid().GetHashCode());
-            var otherRandomAgent = currentContext.contextAgents[randomGen.Next(currentContext.contextAgents.Count)];
-            if(otherRandomAgent.selfGroup != null && otherRandomAgent.name != this.name) // the agent does not interact with itself
-            {
-                if(this.selfGroup.name != otherRandomAgent.selfGroup.name)
-                {
-                    intensity = this.selfGroup.salience * 0.1f; //we divide by 10 to attenuate the impact
-                }else
-                {
-                    intensity = this.selfGroup.salience * -0.1f;
-                }
-            }
 
+            var numOfAgents = currentContext.contextAgents.Count;
+
+            Agent otherRandomAgent1;
+            Agent otherRandomAgent2;
+            int attempts = 0;
+            do
+            {
+                otherRandomAgent1 = currentContext.contextAgents[randomGen.Next(numOfAgents)];
+                otherRandomAgent2 = currentContext.contextAgents[randomGen.Next(numOfAgents)];
+                attempts++; //just a fail-safe
+            } while (attempts < 1000 || otherRandomAgent1.name == this.name 
+                || otherRandomAgent2.name == this.name 
+                || otherRandomAgent1.name == otherRandomAgent2.name);
+
+            var updateFactor = 0.0f;
+            updateFactor += this.DetermineInteractionEffect(otherRandomAgent1.selfGroup?.name);
+            updateFactor += this.DetermineInteractionEffect(otherRandomAgent2.selfGroup?.name);
+
+            //giving resources
+            float offer = currentContext.wealthIncrement / 2;
+            otherRandomAgent1.wealth += offer;
+            otherRandomAgent2.wealth += offer;
+            
             //TODO: Replace this valence method;
             /*Dictionary<string, float> agentValences;
             if (currentContext.agentsValences.TryGetValue(name, out agentValences))
@@ -201,16 +223,12 @@ namespace DIMA_Sim.Model
 
             float accessibility = 0.1f * (float)Math.Log(-selfGroup.accessibility / (selfGroup.accessibility - 1.0001)) + 0.5f;
 
-            float newAccessibility = accessibility + salience * intensity;
+            float newAccessibility = accessibility + salience * updateFactor;
             
             selfGroup.accessibility = Math.Min(1.0f, 1.0f / (1.0f + (float)Math.Pow(Math.E, (-newAccessibility + 0.5) / 0.1)));
             
             if (float.IsNaN(selfGroup.accessibility))
                 selfGroup.accessibility = 0.0f;
-
-            /* Unsure why this was here
-             * if (selfGroup.isAdHoc)
-                knowledgeBase.Remove(selfGroup);*/
         }
 
 
