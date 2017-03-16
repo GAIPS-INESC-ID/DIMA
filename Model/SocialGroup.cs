@@ -39,7 +39,9 @@ namespace DIMA_Sim.Model
 
             distance = (float)(Math.Sqrt((double)distance) / (Math.Sqrt(validCharacteristics) * 100.0f));
 
-            accessibility = 1.0f - distance;
+            //accessibility = 1.0f - distance;
+            accessibility = 0.5f;
+
         }
     }
 }

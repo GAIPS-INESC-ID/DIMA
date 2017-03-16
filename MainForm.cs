@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -24,7 +25,7 @@ namespace DIMA_Sim
 
         private Model.Simulation simulation;
         private Model.Context simulationContext;
-        
+
         private string LoadAgents(XDocument xmlReader)
         {
             try
@@ -68,7 +69,7 @@ namespace DIMA_Sim
             }
             catch (Exception e)
             {
-                return string.Format("Failed to process file.\n{0}", e);
+                MessageBox.Show(e.Message, "Error");
             }
 
             return "Finished";
@@ -249,6 +250,22 @@ namespace DIMA_Sim
 
         }
 
+
+        private void createComboBoxOptions(Simulation sim)
+        {
+            this.comboBox1.Items.Clear();
+            this.comboBox1.Items.Add("Characteristics");
+            for (int i = 0; i < simulation.agents[0].clusterMeans.Count; i++)
+            {
+                this.comboBox1.Items.Add("Group " + (i + 1));
+            }
+
+            for (int i = 0; i < simulation.agents.Count; i++)
+            {
+                this.comboBox1.Items.Add("Agent " + simulation.agents[i].name);
+            }
+        }
+
         private async void runButton_Click(object sender, EventArgs e)
         {
             textBoxOutputFile.Text = string.Empty;
@@ -263,6 +280,10 @@ namespace DIMA_Sim
                 Export(filename);
                 textBoxOutputFile.Text = "Output generated at '" + filename + "'";
                 this.comboBox1_SelectedIndexChanged(sender, e);
+
+                //add comboBox options
+                createComboBoxOptions(simulation);
+
             }
             catch (Exception ex)
             {
@@ -324,46 +345,38 @@ namespace DIMA_Sim
 
         }
 
-
-        private void DisplayCharacteristicsChart()
+        private void ClearChart()
         {
             this.chart1.Series.Clear();
             this.chart1.Legends.Clear();
             this.chart1.ChartAreas.Clear();
             this.chart1.Titles.Clear();
+        }
 
-            var axisX = new System.Windows.Forms.DataVisualization.Charting.Axis
+        private void DisplayCharacteristicsChart()
+        {
+            ClearChart();
+            var chartArea = new ChartArea
             {
-                Interval = 10,
-                Minimum = Consts.CHARACTERISTIC_MIN_VALUE,
-                Maximum = Consts.CHARACTERISTIC_MAX_VALUE
+                AxisX = createAxis(Consts.CHARACTERISTIC_MIN_VALUE, Consts.CHARACTERISTIC_MAX_VALUE,
+                        10, simulationContext.relevantCharacteristcs[0].name),
+                AxisY = createAxis(Consts.CHARACTERISTIC_MIN_VALUE, Consts.CHARACTERISTIC_MAX_VALUE,
+                        10, simulationContext.relevantCharacteristcs[1].name)
             };
 
-            var axisY = new System.Windows.Forms.DataVisualization.Charting.Axis
-            {
-                Interval = 10,
-                Minimum = Consts.CHARACTERISTIC_MIN_VALUE,
-                Maximum = Consts.CHARACTERISTIC_MAX_VALUE,
-            };
-
-            var chartArea = new System.Windows.Forms.DataVisualization.Charting.ChartArea { AxisX = axisX, AxisY = axisY };
-            chartArea.AxisX.Title = simulationContext.relevantCharacteristcs[0].name;
-            chartArea.AxisY.Title = simulationContext.relevantCharacteristcs[1].name;
-
-            var charTitle = new System.Windows.Forms.DataVisualization.Charting.Title { Name = "Characteristics", Text = "Characteristics", Visible = true };
-            var legends1 = new System.Windows.Forms.DataVisualization.Charting.Legend { Name = "Legenda" };
+            var charTitle = new Title { Text = "Characteristics" };
 
             for (int i = 0; i < simulation.agents.Count(); i++)
             {
                 int clusterPos = simulation.agents[i].GetSelfCluster();
-                var series = new System.Windows.Forms.DataVisualization.Charting.Series
+                var series = new Series
                 {
                     Name = simulation.agents[i].name,
                     Color = Consts.COLORS[clusterPos],
                     BorderWidth = 5,
                     MarkerSize = 10,
                     IsVisibleInLegend = true,
-                    ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point
+                    ChartType = SeriesChartType.Point
                 };
                 series.Points.AddXY(
                     simulation.agents[i].characteristics[simulationContext.relevantCharacteristcs[0]],
@@ -374,39 +387,168 @@ namespace DIMA_Sim
             //Clusters
             for (int i = 0; i < simulation.agents[0].clusterMeans.Count(); i++)
             {
-                var series = new System.Windows.Forms.DataVisualization.Charting.Series
+                var series = new Series
                 {
                     Name = "Cluster " + (i + 1),
                     Color = Consts.COLORS[i],
                     BorderWidth = 5,
                     MarkerSize = 10,
                     IsVisibleInLegend = true,
-                    ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point
+                    ChartType = SeriesChartType.Point
                 };
-                series.Points.AddXY(
-                    simulation.agents[0].clusterMeans[i].mean[0],
-                    simulation.agents[0].clusterMeans[i].mean[1]);
+                var clusterMean = simulation.agents[0].clusterMeans[i];
+                series.Points.AddXY(clusterMean.mean[0], clusterMean.mean[1]);
                 this.chart1.Series.Add(series);
             }
+
+            /*
+            //Groups
+            for (int i = 0; i < simulation.agents[0].knowledgeBase.Count(); i++)
+            {
+                var series = new Series
+                {
+                    Name = "Group " + (i + 1),
+                    Color = Consts.COLORS[i],
+                    BorderWidth = 5,
+                    MarkerSize = 10,
+                    IsVisibleInLegend = true,
+                    ChartType = SeriesChartType.Point
+                };
+                var kb = simulation.agents[0].knowledgeBase[i];
+                var x = kb.characteristics[simulationContext.relevantCharacteristcs[0]];
+                var y = kb.characteristics[simulationContext.relevantCharacteristcs[1]];
+                series.Points.AddXY(x, y);
+                this.chart1.Series.Add(series);
+            }*/
+
+
+            this.chart1.Legends.Add(new Legend { Title = "Agent" });
             this.chart1.ChartAreas.Add(chartArea);
             this.chart1.Titles.Add(charTitle);
-            this.chart1.Legends.Add(legends1);
-            
         }
 
+
+
+        private void DisplayGroupChart(int groupNumber)
+        {
+            ClearChart();
+
+            var chartArea = new ChartArea
+            {
+                AxisX = createAxis(1, (int)numberOfRuns.Value, 1, "Step"),
+                AxisY = createAxis(0, 1, 0.1, "Salience"),
+            };
+
+            var charTitle = new Title { Text = "Group " + groupNumber };
+
+            for (int i = 0; i < simulation.agents.Count(); i++)
+            {
+                var series = new Series
+                {
+                    Name = simulation.agents[i].name,
+                    Color = Consts.COLORS[i],
+                    BorderWidth = 5,
+                    MarkerSize = 10,
+                    IsVisibleInLegend = true,
+                    ChartType = SeriesChartType.Point
+                };
+
+                foreach (var data in simulation.agents[i].exportData)
+                {
+                    if (groupNumber - 1 < data.kbData.Count)
+                    {
+                        series.Points.AddY(data.kbData[groupNumber - 1].salience);
+                    }
+                    else
+                    {
+                        series.Points.AddY(0);
+                    }
+                }
+
+                this.chart1.Series.Add(series);
+            }
+
+            this.chart1.Legends.Add(new Legend { Title = "Agent" });
+            this.chart1.ChartAreas.Add(chartArea);
+            this.chart1.Titles.Add(charTitle);
+        }
+
+
+
+        private void DisplayAgentChart(string agentName)
+        {
+            ClearChart();
+
+            var agent = simulation.agents.Where(a => a.name == agentName).FirstOrDefault();
+
+            var chartArea = new ChartArea
+            {
+                AxisX = createAxis(1, (int)numberOfRuns.Value, 1, "Step"),
+                AxisY = createAxis(0, agent.knowledgeBase.Count, 1, "Most Salient Groupr"),
+            };
+
+            var charTitle = new Title { Text = agentName };
+
+            var series = new Series
+            {
+                Name = agent.name,
+                Color = Consts.COLORS[0],
+                BorderWidth = 5,
+                MarkerSize = 10,
+                IsVisibleInLegend = true,
+                ChartType = SeriesChartType.Point
+            };
+
+            foreach (var data in agent.exportData)
+            {
+                var groupName = data.group.name;
+                var groupNumber = Int32.Parse(groupName.Split()[1]);
+                series.Points.AddY(groupNumber);
+            }
+
+            this.chart1.Series.Add(series);
+            this.chart1.ChartAreas.Add(chartArea);
+            this.chart1.Titles.Add(charTitle);
+        }
+
+
+        private Axis createAxis(int min, int max, double interval, string title)
+        {
+            return new Axis
+            {
+                Interval = interval,
+                Minimum = min,
+                Maximum = max,
+                Title = title
+            };
+        }
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
                 if (comboBox1.SelectedItem != null)
                 {
-                    this.DisplayCharacteristicsChart();
+                    if (comboBox1.SelectedItem.ToString().Contains("Characteristics"))
+                        this.DisplayCharacteristicsChart();
+                    if (comboBox1.SelectedItem.ToString().Contains("Group"))
+                    {
+                        var str = comboBox1.SelectedItem.ToString();
+                        var words = str.Split();
+                        DisplayGroupChart(Int32.Parse(words[1]));
+                    }
+                    if (comboBox1.SelectedItem.ToString().Contains("Agent"))
+                    {
+                        var str = comboBox1.SelectedItem.ToString();
+                        var words = str.Split();
+                        DisplayAgentChart(words[1]);
+                    }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error");
             }
-            
+
         }
 
         private void chart1_Click(object sender, EventArgs e)

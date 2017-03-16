@@ -55,6 +55,7 @@
     <Compile Include="Model\Characteristic.cs" />
     <Compile Include="Model\Consts.cs" />
     <Compile Include="Model\Context.cs" />
+    <Compile Include="Model\Interaction.cs" />
     <Compile Include="Model\Simulation.cs" />
     <Compile Include="Model\SocialGroup.cs" />
     <Compile Include="Program.cs" />
@@ -85,6 +86,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Examples\Agents-NoKB-2NearClusters.xml" />
     <Content Include="Examples\Agents-NoKB.xml" />
     <Content Include="Examples\Agents-Original.xml" />
     <Content Include="Examples\Context.xml" />

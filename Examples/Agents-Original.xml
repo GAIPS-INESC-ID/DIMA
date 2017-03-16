@@ -2,58 +2,58 @@
 <simulation>
   <agents>
     <agent name="Ace">
-      <characteristic name="intelligence">92</characteristic>
-      <characteristic name="charisma">11</characteristic>
+      <characteristic name="Intelligence">92</characteristic>
+      <characteristic name="Charisma">11</characteristic>
       <knowledge_base>
-        <social_group name="nerd">
-          <characteristic name="intelligence">100</characteristic>
-          <characteristic name="charisma">0</characteristic>
+        <social_group name="nerd 2">
+          <characteristic name="Intelligence">100</characteristic>
+          <characteristic name="Charisma">0</characteristic>
         </social_group>
-        <social_group name="jock">
-          <characteristic name="intelligence">0</characteristic>
-          <characteristic name="charisma">100</characteristic>
+        <social_group name="jock 1">
+          <characteristic name="Intelligence">0</characteristic>
+          <characteristic name="Charisma">100</characteristic>
         </social_group>
       </knowledge_base>
     </agent>
     <agent name="Ben">
-      <characteristic name="intelligence">75</characteristic>
-      <characteristic name="charisma">32</characteristic>
+      <characteristic name="Intelligence">75</characteristic>
+      <characteristic name="Charisma">32</characteristic>
       <knowledge_base>
-        <social_group name="nerd">
-          <characteristic name="intelligence">100</characteristic>
-          <characteristic name="charisma">0</characteristic>
+        <social_group name="nerd 2">
+          <characteristic name="Intelligence">100</characteristic>
+          <characteristic name="Charisma">0</characteristic>
         </social_group>
-        <social_group name="jock">
-          <characteristic name="intelligence">0</characteristic>
-          <characteristic name="charisma">100</characteristic>
+        <social_group name="jock 1">
+          <characteristic name="Intelligence">0</characteristic>
+          <characteristic name="Charisma">100</characteristic>
         </social_group>
       </knowledge_base>
     </agent>
     <agent name="Cara">
-      <characteristic name="intelligence">33</characteristic>
-      <characteristic name="charisma">87</characteristic>
+      <characteristic name="Intelligence">33</characteristic>
+      <characteristic name="Charisma">87</characteristic>
       <knowledge_base>
-        <social_group name="nerd">
-          <characteristic name="intelligence">100</characteristic>
-          <characteristic name="charisma">0</characteristic>
+        <social_group name="nerd 2">
+          <characteristic name="Intelligence">100</characteristic>
+          <characteristic name="Charisma">0</characteristic>
         </social_group>
-        <social_group name="jock">
-          <characteristic name="intelligence">0</characteristic>
-          <characteristic name="charisma">100</characteristic>
+        <social_group name="jock 1">
+          <characteristic name="Intelligence">0</characteristic>
+          <characteristic name="Charisma">100</characteristic>
         </social_group>
       </knowledge_base>
     </agent>
     <agent name="Dan">
-      <characteristic name="intelligence">23</characteristic>
-      <characteristic name="charisma">98</characteristic>
+      <characteristic name="Intelligence">23</characteristic>
+      <characteristic name="Charisma">98</characteristic>
       <knowledge_base>
-        <social_group name="nerd">
-          <characteristic name="intelligence">100</characteristic>
-          <characteristic name="charisma">0</characteristic>
+        <social_group name="nerd 2">
+          <characteristic name="Intelligence">100</characteristic>
+          <characteristic name="Charisma">0</characteristic>
         </social_group>
-        <social_group name="jock">
-          <characteristic name="intelligence">0</characteristic>
-          <characteristic name="charisma">100</characteristic>
+        <social_group name="jock 1">
+          <characteristic name="Intelligence">0</characteristic>
+          <characteristic name="Charisma">100</characteristic>
         </social_group>
       </knowledge_base>
     </agent>

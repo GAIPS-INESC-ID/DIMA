@@ -171,19 +171,37 @@ namespace DIMA_Sim.Model
             return selfGroup.accessibility;
         }
 
+
         public void UpdateAccessibility(Context currentContext)
         {
             if (selfGroup == null)
                 return;
 
-            float valence = 0.0f;
-            Dictionary<string, float> agentValences;
+
+            var intensity = 0.0f;
+
+            //New Interaction
+            var randomGen = new Random(Guid.NewGuid().GetHashCode());
+            var otherRandomAgent = currentContext.contextAgents[randomGen.Next(currentContext.contextAgents.Count)];
+            if(otherRandomAgent.selfGroup != null && otherRandomAgent.name != this.name) // the agent does not interact with itself
+            {
+                if(this.selfGroup.name != otherRandomAgent.selfGroup.name)
+                {
+                    intensity = this.selfGroup.salience * 0.1f; //we divide by 10 to attenuate the impact
+                }else
+                {
+                    intensity = this.selfGroup.salience * -0.1f;
+                }
+            }
+
+            //TODO: Replace this valence method;
+            /*Dictionary<string, float> agentValences;
             if (currentContext.agentsValences.TryGetValue(name, out agentValences))
-                agentValences.TryGetValue(selfGroup.name, out valence);
+                agentValences.TryGetValue(selfGroup.name, out valence);*/
 
             float accessibility = 0.1f * (float)Math.Log(-selfGroup.accessibility / (selfGroup.accessibility - 1.0001)) + 0.5f;
 
-            float newAccessibility = accessibility + salience * valence;
+            float newAccessibility = accessibility + salience * intensity;
             
             selfGroup.accessibility = Math.Min(1.0f, 1.0f / (1.0f + (float)Math.Pow(Math.E, (-newAccessibility + 0.5) / 0.1)));
             
@@ -195,6 +213,8 @@ namespace DIMA_Sim.Model
                 knowledgeBase.Remove(selfGroup);*/
         }
 
+
+        /*
         public void NormalizeAccessibility()
         {
             float totalAccessibility = 0.0f;
@@ -218,7 +238,7 @@ namespace DIMA_Sim.Model
                     socialGroup.accessibility /= totalAccessibility;
                 }
             }
-        }
+        }*/
 
         public void CalculateComparativeFit(Context currentContext, Simulation simulation)
         {
@@ -357,7 +377,7 @@ namespace DIMA_Sim.Model
 
                     adhocGroup.characteristics = new Dictionary<Characteristic, float>();
 
-                    adhocGroup.name = "Group_" + numAdhocGroups;
+                    adhocGroup.name = "Group " + numAdhocGroups;
 
                     for (int i = 0; i < numDimensions; i++)
                     {

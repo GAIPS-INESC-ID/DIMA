@@ -2,44 +2,44 @@
 <simulation>
   <agents>
     <agent name="Ace">
-      <characteristic name="Intelligence">92</characteristic>
-      <characteristic name="Charisma">55</characteristic>
-      <knowledge_base>
-      </knowledge_base>
-    </agent>
-    <agent name="Ben">
-      <characteristic name="Intelligence">95</characteristic>
+      <characteristic name="Intelligence">60</characteristic>
       <characteristic name="Charisma">50</characteristic>
       <knowledge_base>
       </knowledge_base>
     </agent>
+    <agent name="Ben">
+      <characteristic name="Intelligence">60</characteristic>
+      <characteristic name="Charisma">41</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
     <agent name="Cara">
-      <characteristic name="Intelligence">10</characteristic>
-      <characteristic name="Charisma">87</characteristic>
+      <characteristic name="Intelligence">80</characteristic>
+      <characteristic name="Charisma">50</characteristic>
       <knowledge_base>
       </knowledge_base>
     </agent>
     <agent name="Dan">
-      <characteristic name="Intelligence">15</characteristic>
-      <characteristic name="Charisma">83</characteristic>
+      <characteristic name="Intelligence">30</characteristic>
+      <characteristic name="Charisma">40</characteristic>
       <knowledge_base>
       </knowledge_base>
     </agent>
    <agent name="Sam">
-      <characteristic name="Intelligence">12</characteristic>
-      <characteristic name="Charisma">13</characteristic>
+      <characteristic name="Intelligence">50</characteristic>
+      <characteristic name="Charisma">60</characteristic>
       <knowledge_base>
       </knowledge_base>
     </agent>
     <agent name="Mary">
-      <characteristic name="Intelligence">16</characteristic>
-      <characteristic name="Charisma">12</characteristic>
+      <characteristic name="Intelligence">40</characteristic>
+      <characteristic name="Charisma">30</characteristic>
       <knowledge_base>
       </knowledge_base>
     </agent>
   </agents>
   <properties>
-    <normative_match_distance>0,4</normative_match_distance>
+    <normative_match_distance>0,2</normative_match_distance>
     <distance_constraint>0,2</distance_constraint>
     <comparative_fit_alfa>0,5</comparative_fit_alfa>
     <comparative_fit_beta>0,5</comparative_fit_beta>

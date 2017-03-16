@@ -28,11 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.runButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBoxOutputFile = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,13 +46,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.numberOfRuns = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxOutputFile = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numberOfRuns)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -99,6 +99,16 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
+            // 
+            // textBoxOutputFile
+            // 
+            this.textBoxOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxOutputFile.Location = new System.Drawing.Point(110, 123);
+            this.textBoxOutputFile.Name = "textBoxOutputFile";
+            this.textBoxOutputFile.ReadOnly = true;
+            this.textBoxOutputFile.Size = new System.Drawing.Size(339, 20);
+            this.textBoxOutputFile.TabIndex = 14;
             // 
             // button3
             // 
@@ -199,6 +209,11 @@
             // numberOfRuns
             // 
             this.numberOfRuns.Location = new System.Drawing.Point(59, 82);
+            this.numberOfRuns.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
             this.numberOfRuns.Minimum = new decimal(new int[] {
             1,
             0,
@@ -227,16 +242,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 456);
             this.tableLayoutPanel1.TabIndex = 5;
-            // 
-            // textBoxOutputFile
-            // 
-            this.textBoxOutputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxOutputFile.Location = new System.Drawing.Point(110, 123);
-            this.textBoxOutputFile.Name = "textBoxOutputFile";
-            this.textBoxOutputFile.ReadOnly = true;
-            this.textBoxOutputFile.Size = new System.Drawing.Size(339, 20);
-            this.textBoxOutputFile.TabIndex = 14;
             // 
             // groupBox2
             // 
@@ -284,33 +289,31 @@
             this.label5.TabIndex = 1;
             this.label5.Text = "Select Chart:";
             // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(3, 49);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(479, 211);
-            this.chart1.TabIndex = 2;
-            this.chart1.Text = "chart1";
-            this.chart1.Click += new System.EventHandler(this.chart1_Click);
-            // 
             // comboBox1
             // 
             this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Characteristics"});
             this.comboBox1.Location = new System.Drawing.Point(80, 13);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(396, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // chart1
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(3, 49);
+            this.chart1.Name = "chart1";
+            this.chart1.Size = new System.Drawing.Size(479, 211);
+            this.chart1.TabIndex = 2;
+            this.chart1.Text = "chart1";
+            this.chart1.Click += new System.EventHandler(this.chart1_Click);
             // 
             // MainForm
             // 

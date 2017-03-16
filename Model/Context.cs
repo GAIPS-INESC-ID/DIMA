@@ -10,8 +10,12 @@ namespace DIMA_Sim.Model
     class Context
     {
         public List<Characteristic> relevantCharacteristcs;
+
+        public float defaultValence;
         public Dictionary<string, Dictionary<string, float>> agentsValences;
         public List<Agent> contextAgents;
+
+
 
         public float GetMaxDistance()
         {
@@ -35,6 +39,7 @@ namespace DIMA_Sim.Model
                 relevantCharacteristcs.Add(characteristic);
             }
 
+            defaultValence = float.Parse(xmlReader.Root.Element("default_emotional_valence").Attribute("value").Value);
             agentsValences = new Dictionary<string, Dictionary<string, float>>();
 
             foreach (var element in xmlReader.Root.Element("agents").Elements("agent"))
