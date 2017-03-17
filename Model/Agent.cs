@@ -64,6 +64,7 @@ namespace DIMA_Sim.Model
             public float comparativeFit;
             public float accessibility;
             public float salience;
+            public float wealth;
             public List<KbExportData> kbData;
         }
 
@@ -84,6 +85,7 @@ namespace DIMA_Sim.Model
             data.dispersion = GetClusterDispersion();
             data.comparativeFit = comparativeFit;
             data.salience = salience;
+            data.wealth = wealth;
             data.accessibility = (selfGroup != null) ? selfGroup.accessibility : 0.0f;
 
             data.kbData = new List<KbExportData>();
@@ -110,7 +112,7 @@ namespace DIMA_Sim.Model
             data.comparativeFit = 0.0f;
             data.salience = 0.0f;
             data.accessibility = 0.0f;
-
+            data.wealth = 0.0f;
             data.kbData = new List<KbExportData>();
 
             foreach (var group in knowledgeBase)

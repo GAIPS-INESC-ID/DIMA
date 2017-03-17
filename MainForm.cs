@@ -175,6 +175,7 @@ namespace DIMA_Sim
             varExport("comparative fit", dataExport => dataExport.comparativeFit.ToString());
             varExport("accessibility", dataExport => dataExport.accessibility.ToString());
             varExport("salience", dataExport => dataExport.salience.ToString());
+            varExport("wealth", dataExport => dataExport.wealth.ToString());
 
             KbExportDelegate kbExport = (agent, name, dataExport) =>
             {
@@ -490,20 +491,17 @@ namespace DIMA_Sim
             //Groups
             for (int i = 0; i < simulation.agents[0].knowledgeBase.Count(); i++)
             {
-                var series = new Series
+                var series = this.CreateSeries(simulation.agents[0].knowledgeBase[i].name, Consts.COLORS[i]);
+                for(int s = 0; s < (int)numberOfRuns.Value; s++)
                 {
-                    Name = simulation.agents[0].knowledgeBase[i].name,
-                    Color = Consts.COLORS[i],
-                    BorderWidth = 5,
-                    MarkerSize = 10,
-                    IsVisibleInLegend = true,
-                    ChartType = SeriesChartType.Point
-                };
-
-                foreach (var data in simulation.agents[i].exportData)
-                {
-
+                    var wealth = 0f;
+                    foreach(var agent in simulation.agents)
+                    {
+                        wealth += agent.exportData[s].wealth;
+                    }
+                    series.Points.Add(wealth);
                 }
+                
                 this.chart1.Series.Add(series);
             }
 
@@ -527,15 +525,7 @@ namespace DIMA_Sim
 
             var charTitle = new Title { Text = agentName };
 
-            var series = new Series
-            {
-                Name = agent.name,
-                Color = Consts.COLORS[0],
-                BorderWidth = 5,
-                MarkerSize = 10,
-                IsVisibleInLegend = true,
-                ChartType = SeriesChartType.Point
-            };
+            var series = this.CreateSeries(agent.name, Consts.COLORS[0]);
 
             foreach (var data in agent.exportData)
             {
@@ -550,6 +540,18 @@ namespace DIMA_Sim
         }
 
 
+        private Series CreateSeries(string name, Color color)
+        {
+            return new Series
+            {
+                Name = name,
+                Color = color,
+                BorderWidth = 5,
+                MarkerSize = 10,
+                IsVisibleInLegend = true,
+                ChartType = SeriesChartType.Point
+            };
+        }
         private Axis createAxis(int min, int max, double interval, string title)
         {
             return new Axis
