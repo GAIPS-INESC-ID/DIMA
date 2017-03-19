@@ -486,22 +486,27 @@ namespace DIMA_Sim
                 AxisY = new Axis { Title = "Wealth"},
             };
 
-            var charTitle = new Title { Text = "Group Wealth"};
+            var charTitle = new Title { Text = "Group Average Wealth"};
 
             //Groups
             for (int i = 0; i < simulation.agents[0].knowledgeBase.Count(); i++)
             {
-                var series = this.CreateSeries(simulation.agents[0].knowledgeBase[i].name, Consts.COLORS[i]);
+                var groupName = simulation.agents[0].knowledgeBase[i].name;
+                var series = this.CreateSeries(groupName, Consts.COLORS[i]);
                 for(int s = 0; s < (int)numberOfRuns.Value; s++)
                 {
                     var wealth = 0f;
+                    int numOfAgents = 0;
                     foreach(var agent in simulation.agents)
                     {
-                        wealth += agent.exportData[s].wealth;
+                        if(agent.exportData[s].group.name == groupName)
+                        {
+                            wealth += agent.exportData[s].wealth;
+                            numOfAgents++;
+                        }   
                     }
-                    series.Points.Add(wealth);
+                    series.Points.Add(wealth / numOfAgents);
                 }
-                
                 this.chart1.Series.Add(series);
             }
 

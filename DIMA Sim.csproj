@@ -86,10 +86,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Examples\Agents-8-2.xml" />
     <Content Include="Examples\Agents-NoKB-2NearClusters.xml" />
     <Content Include="Examples\Agents-NoKB.xml" />
-    <Content Include="Examples\Agents-Original.xml" />
-    <Content Include="Examples\Context.xml" />
+    <Content Include="Examples\Agents-Original.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Examples\Context-Size10.xml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

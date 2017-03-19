@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DIMA_Sim.Model
 {
-    class Simulation
+    public class Simulation
     {
         public List<Agent> agents;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DIMA_Sim.Model
 {
-    class SocialGroup
+    public class SocialGroup
     {
         public String name;
         public Dictionary<Characteristic, float> characteristics;

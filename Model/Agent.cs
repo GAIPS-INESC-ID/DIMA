@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DIMA_Sim.Model
 {
-    class Agent
+    public class Agent
     {
         public string name;
         public float wealth;
@@ -70,7 +70,7 @@ namespace DIMA_Sim.Model
 
         public List<ExportData> exportData = new List<ExportData>();
 
-        private SocialGroup selfGroup;
+        public SocialGroup selfGroup;
 
         public float comparativeFit;
         public float salience;
@@ -174,54 +174,15 @@ namespace DIMA_Sim.Model
             return selfGroup.accessibility;
         }
 
-        private float DetermineInteractionEffect(string otherAgentGroup)
-        {
-            if (otherAgentGroup == null) return 0.0f;
-
-            if(otherAgentGroup != selfGroup.name)
-            {
-                return  this.selfGroup.salience * 0.1f; //we divide by 10 to attenuate the impact
-            }else
-            {
-                return this.selfGroup.salience * -0.1f;
-            }
-        }
+        
 
         public void UpdateAccessibility(Context currentContext)
         {
             if (selfGroup == null)
                 return;
 
-            //New Interaction
-            var randomGen = new Random(Guid.NewGuid().GetHashCode());
-
-            var numOfAgents = currentContext.contextAgents.Count;
-
-            Agent otherRandomAgent1;
-            Agent otherRandomAgent2;
-            int attempts = 0;
-            do
-            {
-                otherRandomAgent1 = currentContext.contextAgents[randomGen.Next(numOfAgents)];
-                otherRandomAgent2 = currentContext.contextAgents[randomGen.Next(numOfAgents)];
-                attempts++; //just a fail-safe
-            } while (attempts < 1000 || otherRandomAgent1.name == this.name 
-                || otherRandomAgent2.name == this.name 
-                || otherRandomAgent1.name == otherRandomAgent2.name);
-
-            var updateFactor = 0.0f;
-            updateFactor += this.DetermineInteractionEffect(otherRandomAgent1.selfGroup?.name);
-            updateFactor += this.DetermineInteractionEffect(otherRandomAgent2.selfGroup?.name);
-
-            //giving resources
-            float offer = currentContext.wealthIncrement / 2;
-            otherRandomAgent1.wealth += offer;
-            otherRandomAgent2.wealth += offer;
-            
-            //TODO: Replace this valence method;
-            /*Dictionary<string, float> agentValences;
-            if (currentContext.agentsValences.TryGetValue(name, out agentValences))
-                agentValences.TryGetValue(selfGroup.name, out valence);*/
+            var updateFactor = Interaction.MinimalGroupResourceTask(this, currentContext);
+            //  var updateFactor = Interaction.DictatorGameTask(this, currentContext);
 
             float accessibility = 0.1f * (float)Math.Log(-selfGroup.accessibility / (selfGroup.accessibility - 1.0001)) + 0.5f;
 

@@ -87,9 +87,9 @@
     </agent>
   </agents>
   <properties>
-    <normative_match_distance>0,4</normative_match_distance>
-    <distance_constraint>0,4</distance_constraint>
-    <comparative_fit_alfa>0,5</comparative_fit_alfa>
-    <comparative_fit_beta>0,5</comparative_fit_beta>
+    <normative_match_distance>0.2</normative_match_distance>
+    <distance_constraint>0.2</distance_constraint>
+    <comparative_fit_alfa>0.5</comparative_fit_alfa>
+    <comparative_fit_beta>0.5</comparative_fit_beta>
   </properties>
 </simulation>

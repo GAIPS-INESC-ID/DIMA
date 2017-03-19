@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using System.Xml.Linq;
 
 namespace DIMA_Sim.Model
 {
-    class Context
+    public class Context
     {
         public List<Characteristic> relevantCharacteristcs;
 
@@ -16,9 +17,7 @@ namespace DIMA_Sim.Model
         public Dictionary<string, Dictionary<string, float>> agentsValences;
         public List<Agent> contextAgents;
 
-
-
-        public float GetMaxDistance()
+                public float GetMaxDistance()
         {
             double totalWeight = 0.0;
             foreach (var characteristic in relevantCharacteristcs)
@@ -35,19 +34,19 @@ namespace DIMA_Sim.Model
             {
                 var characteristic = new Characteristic();
                 characteristic.name = element.Value;
-                characteristic.weight = float.Parse(element.Attribute("weight").Value);
+                characteristic.weight = float.Parse(element.Attribute("weight").Value, CultureInfo.InvariantCulture);
 
                 relevantCharacteristcs.Add(characteristic);
             }
 
-            defaultValence = float.Parse(xmlReader.Root.Element("default_emotional_valence").Attribute("value").Value);
-            wealthIncrement = float.Parse(xmlReader.Root.Element("wealth_increment").Attribute("value").Value);
+            defaultValence = float.Parse(xmlReader.Root.Element("default_emotional_valence").Attribute("value").Value, CultureInfo.InvariantCulture);
+            wealthIncrement = float.Parse(xmlReader.Root.Element("wealth_increment").Attribute("value").Value, CultureInfo.InvariantCulture);
             agentsValences = new Dictionary<string, Dictionary<string, float>>();
 
             foreach (var element in xmlReader.Root.Element("agents").Elements("agent"))
             {
                 string name = element.Attribute("name").Value;
-                float emotionalValence = float.Parse(element.Attribute("emotional_valence").Value);
+                float emotionalValence = float.Parse(element.Attribute("emotional_valence").Value, CultureInfo.InvariantCulture);
                 string socialGroup = element.Attribute("social_group").Value;
 
                 if (!agentsValences.ContainsKey(name))

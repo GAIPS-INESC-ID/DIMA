@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<simulation>
+  <agents>
+    <agent name="Ace">
+      <characteristic name="Intelligence">92</characteristic>
+      <characteristic name="Charisma">80</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Ben">
+      <characteristic name="Intelligence">80</characteristic>
+      <characteristic name="Charisma">80</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Cara">
+      <characteristic name="Intelligence">80</characteristic>
+      <characteristic name="Charisma">95</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Dan">
+      <characteristic name="Intelligence">79</characteristic>
+      <characteristic name="Charisma">87</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+   <agent name="Edgar">
+      <characteristic name="Intelligence">95</characteristic>
+      <characteristic name="Charisma">78</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Felix">
+      <characteristic name="Intelligence">82</characteristic>
+      <characteristic name="Charisma">93</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Gabriel">
+      <characteristic name="Intelligence">75</characteristic>
+      <characteristic name="Charisma">88</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Harry">
+      <characteristic name="Intelligence">82</characteristic>
+      <characteristic name="Charisma">91</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Igor">
+      <characteristic name="Intelligence">16</characteristic>
+      <characteristic name="Charisma">12</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+    <agent name="Jane">
+      <characteristic name="Intelligence">22</characteristic>
+      <characteristic name="Charisma">20</characteristic>
+      <knowledge_base>
+      </knowledge_base>
+    </agent>
+  </agents>
+  <properties>
+    <normative_match_distance>0.2</normative_match_distance>
+    <distance_constraint>0.2</distance_constraint>
+    <comparative_fit_alfa>0.5</comparative_fit_alfa>
+    <comparative_fit_beta>0.5</comparative_fit_beta>
+  </properties>
+</simulation>

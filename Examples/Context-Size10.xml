@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+  <simulation>
+    <context>
+      <characteristic weight="0.5">Intelligence</characteristic>
+      <characteristic weight="0.5">Charisma</characteristic>
+    </context>
+    
+    <wealth_increment value="100"/>
+    <default_emotional_valence value="-0.4"/>
+    
+    <agents>
+      <agent name="Ace" social_group="jock 1" emotional_valence="0" />
+      <agent name="Ace" social_group="nerd 2" emotional_valence="0" />
+      
+      <agent name="Ben" social_group="jock 1" emotional_valence="0" />
+      <agent name="Ben" social_group="nerd 2" emotional_valence="0" />
+      
+      <agent name="Cara" social_group="jock 1" emotional_valence="0" />
+      <agent name="Cara" social_group="nerd 2" emotional_valence="0" />
+      
+      <agent name="Dan" social_group="jock 1" emotional_valence="0" />
+      <agent name="Dan" social_group="nerd 2" emotional_valence="0" />
+      
+      <agent name="Edgar" social_group="jock" emotional_valence="0" />
+      <agent name="Edgar" social_group="nerd" emotional_valence="0" />
+      
+      <agent name="Felix" social_group="jock" emotional_valence="0" />
+      <agent name="Felix" social_group="nerd" emotional_valence="0" />
+
+      <agent name="Gabriel" social_group="jock" emotional_valence="0" />
+      <agent name="Gabriel" social_group="nerd" emotional_valence="0" />
+
+      <agent name="Harry" social_group="jock" emotional_valence="0" />
+      <agent name="Harry" social_group="nerd" emotional_valence="0" />
+
+      <agent name="Igor" social_group="jock" emotional_valence="0" />
+      <agent name="Igor" social_group="nerd" emotional_valence="0" />
+
+      <agent name="Jane" social_group="jock" emotional_valence="0" />
+      <agent name="Jane" social_group="nerd" emotional_valence="0" />
+    </agents>
+</simulation>

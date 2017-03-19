@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DIMA_Sim.Model
 {
-    enum CharacteristicType
+    public enum CharacteristicType
     {
         Implicit,
         Explicit,
     }
 
-    class Characteristic
+    public class Characteristic
     {
         public String name;
         public float weight;
