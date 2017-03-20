@@ -181,8 +181,8 @@ namespace DIMA_Sim.Model
             if (selfGroup == null)
                 return;
 
-            var updateFactor = Interaction.MinimalGroupResourceTask(this, currentContext);
-            //  var updateFactor = Interaction.DictatorGameTask(this, currentContext);
+            //var updateFactor = Interaction.MinimalGroupResourceTask(this, currentContext);
+             var updateFactor = Interaction.DictatorGameTask(this, currentContext);
 
             float accessibility = 0.1f * (float)Math.Log(-selfGroup.accessibility / (selfGroup.accessibility - 1.0001)) + 0.5f;
 

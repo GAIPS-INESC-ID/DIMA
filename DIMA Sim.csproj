@@ -86,6 +86,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Examples\Agents-5-5.xml" />
+    <Content Include="Examples\Agents-6-4.xml" />
     <Content Include="Examples\Agents-8-2.xml" />
     <Content Include="Examples\Agents-NoKB-2NearClusters.xml" />
     <Content Include="Examples\Agents-NoKB.xml" />
