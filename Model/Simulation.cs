@@ -15,6 +15,7 @@ namespace DIMA_Sim.Model
         public float distanceConstraint;
         public float comparativeFitAlfa;
         public float comparativeFitBeta;
+        public float minimalSalienceThreshold;
 
         public void LoadFromXml(XDocument xmlReader)
         {
@@ -23,6 +24,7 @@ namespace DIMA_Sim.Model
             distanceConstraint = float.Parse(propertiesElement.Element("distance_constraint").Value.ToString());
             comparativeFitAlfa = float.Parse(propertiesElement.Element("comparative_fit_alfa").Value.ToString());
             comparativeFitBeta = float.Parse(propertiesElement.Element("comparative_fit_beta").Value.ToString());
+            minimalSalienceThreshold = float.Parse(propertiesElement.Element("minimal_salience_threshold").Value.ToString());
             //
             agents = new List<Agent>();
 
