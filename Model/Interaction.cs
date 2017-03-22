@@ -4,6 +4,50 @@ namespace DIMA_Sim.Model
 {
     public class Interaction
     {
+
+
+        public static float DictatorGameTask(Agent agent, Context currentContext)
+        {
+            //Dividing resource interaction
+            var randomGen = new Random(Guid.NewGuid().GetHashCode());
+            var numOfAgents = currentContext.contextAgents.Count;
+
+            Agent otherRandomAgent;
+            int attempts = 0;
+            do
+            {
+                otherRandomAgent = currentContext.contextAgents[randomGen.Next(numOfAgents)];
+                attempts++; //just a fail-safe
+            } while (attempts < 1000 || otherRandomAgent.name == agent.name);
+
+            var updateFactor = DetermineInteractionEffect(agent.selfGroup?.name, agent.salience, otherRandomAgent.selfGroup?.name);
+
+            //The average amount given, under these standard conditions, is found by Forsythe et al. to be around 20 % of the allocated money.[7]
+            float fairOffer = currentContext.wealthIncrement * 0.20f;
+
+            //no group
+            if(agent.salience < agent.minimalSalienceThreshold)
+            {
+                otherRandomAgent.wealth += fairOffer;
+            }
+
+            float groupBias = (int)Math.Ceiling(fairOffer * agent.salience);
+            if (otherRandomAgent.selfGroup?.name == agent.selfGroup?.name)
+            {
+                var otherOffer = fairOffer + groupBias;
+                otherRandomAgent.wealth += otherOffer;
+                //agent.wealth += currentContext.wealthIncrement - otherOffer;
+            }
+            else if (otherRandomAgent.selfGroup?.name != agent.selfGroup?.name)
+            {
+                var otherOffer = fairOffer - groupBias;
+                otherRandomAgent.wealth += otherOffer;
+                //agent.wealth += currentContext.wealthIncrement - otherOffer;
+            }
+            return updateFactor;
+        }
+
+
         public static float MinimalGroupResourceTask(Agent agent, Context currentContext)
         {
             //Dividing resource interaction
@@ -51,40 +95,6 @@ namespace DIMA_Sim.Model
             return updateFactor;
         }
 
-        public static float DictatorGameTask(Agent agent, Context currentContext)
-        {
-            //Dividing resource interaction
-            var randomGen = new Random(Guid.NewGuid().GetHashCode());
-            var numOfAgents = currentContext.contextAgents.Count;
-
-            Agent otherRandomAgent;
-            int attempts = 0;
-            do
-            {
-                otherRandomAgent = currentContext.contextAgents[randomGen.Next(numOfAgents)];
-                attempts++; //just a fail-safe
-            } while (attempts < 1000 || otherRandomAgent.name == agent.name);
-
-            var updateFactor = DetermineInteractionEffect(agent.selfGroup?.name, agent.salience, otherRandomAgent.selfGroup?.name);
-
-            //The average amount given, under these standard conditions, is found by Forsythe et al. to be around 20 % of the allocated money.[7]
-            float fairOffer = currentContext.wealthIncrement * 0.20f;
-
-            float groupBias = (int)Math.Ceiling(fairOffer * agent.salience);
-            if (otherRandomAgent.selfGroup?.name == agent.selfGroup?.name)
-            {
-                var otherOffer = fairOffer + groupBias;
-                otherRandomAgent.wealth += otherOffer;
-                //agent.wealth += currentContext.wealthIncrement - otherOffer;
-            }
-            else if (otherRandomAgent.selfGroup?.name != agent.selfGroup?.name)
-            {
-                var otherOffer = fairOffer - groupBias;
-                otherRandomAgent.wealth += otherOffer;
-                //agent.wealth += currentContext.wealthIncrement - otherOffer;
-            }
-            return updateFactor;
-        }
 
 
         private static float DetermineInteractionEffect(string selfGroupName, float selfGroupSalience, string otherAgentGroup)

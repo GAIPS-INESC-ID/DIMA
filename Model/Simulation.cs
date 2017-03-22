@@ -15,10 +15,12 @@ namespace DIMA_Sim.Model
         public float distanceConstraint;
         public float comparativeFitAlfa;
         public float comparativeFitBeta;
-        public float minimalSalienceThreshold;
+
 
         public void LoadFromXml(XDocument xmlReader)
         {
+            float minimalSalienceThreshold;
+
             var propertiesElement = xmlReader.Root.Element("properties");
             normativeMatchDistance = float.Parse(propertiesElement.Element("normative_match_distance").Value.ToString());
             distanceConstraint = float.Parse(propertiesElement.Element("distance_constraint").Value.ToString());
@@ -34,7 +36,7 @@ namespace DIMA_Sim.Model
 
                 agent.characteristics = new Dictionary<Characteristic, float>();
                 agent.knowledgeBase = new List<SocialGroup>();
-
+                agent.minimalSalienceThreshold = minimalSalienceThreshold;
                 agent.name = element.Attribute("name").Value;
 
                 foreach (var subElement in element.Elements("characteristic"))
@@ -65,7 +67,7 @@ namespace DIMA_Sim.Model
                     agent.knowledgeBase.Add(socialGroup);
                 }
 
-               // agent.NormalizeAccessibility();
+                // agent.NormalizeAccessibility();
 
                 agents.Add(agent);
             }

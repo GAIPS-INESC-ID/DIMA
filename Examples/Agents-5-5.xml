@@ -67,5 +67,6 @@
     <distance_constraint>0.2</distance_constraint>
     <comparative_fit_alfa>0.5</comparative_fit_alfa>
     <comparative_fit_beta>0.5</comparative_fit_beta>
+    <minimal_salience_threshold>0.2</minimal_salience_threshold>
   </properties>
 </simulation>

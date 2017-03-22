@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.runButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -44,7 +44,7 @@
             this.textBoxAgentsSource = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.numberOfRuns = new System.Windows.Forms.NumericUpDown();
+            this.numberOfSteps = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -52,13 +52,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label6 = new System.Windows.Forms.Label();
+            this.numberOfRuns = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numberOfRuns)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberOfSteps)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberOfRuns)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -79,6 +82,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.numberOfRuns);
             this.groupBox1.Controls.Add(this.textBoxOutputFile);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
@@ -90,12 +95,12 @@
             this.groupBox1.Controls.Add(this.textBoxAgentsSource);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.numberOfRuns);
+            this.groupBox1.Controls.Add(this.numberOfSteps);
             this.groupBox1.Controls.Add(this.runButton);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(491, 162);
+            this.groupBox1.Size = new System.Drawing.Size(578, 162);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Input";
@@ -107,13 +112,13 @@
             this.textBoxOutputFile.Location = new System.Drawing.Point(110, 123);
             this.textBoxOutputFile.Name = "textBoxOutputFile";
             this.textBoxOutputFile.ReadOnly = true;
-            this.textBoxOutputFile.Size = new System.Drawing.Size(339, 20);
+            this.textBoxOutputFile.Size = new System.Drawing.Size(426, 20);
             this.textBoxOutputFile.TabIndex = 14;
             // 
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(455, 82);
+            this.button3.Location = new System.Drawing.Point(542, 82);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(27, 20);
             this.button3.TabIndex = 13;
@@ -124,7 +129,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(455, 53);
+            this.button2.Location = new System.Drawing.Point(542, 53);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(27, 19);
             this.button2.TabIndex = 12;
@@ -135,7 +140,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(455, 25);
+            this.button1.Location = new System.Drawing.Point(542, 25);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(27, 20);
             this.button1.TabIndex = 11;
@@ -147,15 +152,15 @@
             // 
             this.textBoxOutputFolder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxOutputFolder.Location = new System.Drawing.Point(190, 81);
+            this.textBoxOutputFolder.Location = new System.Drawing.Point(300, 81);
             this.textBoxOutputFolder.Name = "textBoxOutputFolder";
-            this.textBoxOutputFolder.Size = new System.Drawing.Size(259, 20);
+            this.textBoxOutputFolder.Size = new System.Drawing.Size(236, 20);
             this.textBoxOutputFolder.TabIndex = 10;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(110, 84);
+            this.label4.Location = new System.Drawing.Point(220, 86);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(74, 13);
             this.label4.TabIndex = 9;
@@ -176,7 +181,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxContextSource.Location = new System.Drawing.Point(59, 53);
             this.textBoxContextSource.Name = "textBoxContextSource";
-            this.textBoxContextSource.Size = new System.Drawing.Size(390, 20);
+            this.textBoxContextSource.Size = new System.Drawing.Size(477, 20);
             this.textBoxContextSource.TabIndex = 7;
             // 
             // textBoxAgentsSource
@@ -185,7 +190,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxAgentsSource.Location = new System.Drawing.Point(59, 25);
             this.textBoxAgentsSource.Name = "textBoxAgentsSource";
-            this.textBoxAgentsSource.Size = new System.Drawing.Size(390, 20);
+            this.textBoxAgentsSource.Size = new System.Drawing.Size(477, 20);
             this.textBoxAgentsSource.TabIndex = 6;
             // 
             // label2
@@ -206,23 +211,23 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Agents:";
             // 
-            // numberOfRuns
+            // numberOfSteps
             // 
-            this.numberOfRuns.Location = new System.Drawing.Point(59, 82);
-            this.numberOfRuns.Maximum = new decimal(new int[] {
+            this.numberOfSteps.Location = new System.Drawing.Point(59, 82);
+            this.numberOfSteps.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-            this.numberOfRuns.Minimum = new decimal(new int[] {
+            this.numberOfSteps.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numberOfRuns.Name = "numberOfRuns";
-            this.numberOfRuns.Size = new System.Drawing.Size(45, 20);
-            this.numberOfRuns.TabIndex = 3;
-            this.numberOfRuns.Value = new decimal(new int[] {
+            this.numberOfSteps.Name = "numberOfSteps";
+            this.numberOfSteps.Size = new System.Drawing.Size(45, 20);
+            this.numberOfSteps.TabIndex = 3;
+            this.numberOfSteps.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -240,7 +245,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(497, 456);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(584, 456);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // groupBox2
@@ -249,7 +254,7 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(3, 171);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(491, 282);
+            this.groupBox2.Size = new System.Drawing.Size(578, 282);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output";
@@ -266,7 +271,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(485, 263);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(572, 263);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // groupBox3
@@ -276,7 +281,7 @@
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(3, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(479, 40);
+            this.groupBox3.Size = new System.Drawing.Size(566, 40);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             // 
@@ -297,29 +302,60 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(80, 13);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(396, 21);
+            this.comboBox1.Size = new System.Drawing.Size(483, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
             this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(3, 49);
             this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(479, 211);
+            this.chart1.Size = new System.Drawing.Size(566, 211);
             this.chart1.TabIndex = 2;
             this.chart1.Text = "chart1";
             this.chart1.Click += new System.EventHandler(this.chart1_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(116, 84);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(35, 13);
+            this.label6.TabIndex = 16;
+            this.label6.Text = "Runs:";
+            // 
+            // numberOfRuns
+            // 
+            this.numberOfRuns.Location = new System.Drawing.Point(159, 82);
+            this.numberOfRuns.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numberOfRuns.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numberOfRuns.Name = "numberOfRuns";
+            this.numberOfRuns.Size = new System.Drawing.Size(45, 20);
+            this.numberOfRuns.TabIndex = 15;
+            this.numberOfRuns.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(497, 456);
+            this.ClientSize = new System.Drawing.Size(584, 456);
             this.Controls.Add(this.tableLayoutPanel1);
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(513, 495);
@@ -329,13 +365,14 @@
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numberOfRuns)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberOfSteps)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numberOfRuns)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -345,7 +382,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button runButton;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.NumericUpDown numberOfRuns;
+        private System.Windows.Forms.NumericUpDown numberOfSteps;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
@@ -364,6 +401,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown numberOfRuns;
     }
 }
 

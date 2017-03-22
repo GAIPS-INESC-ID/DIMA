@@ -12,7 +12,7 @@ namespace DIMA_Sim.Model
         public float wealth;
         public Dictionary<Characteristic, float> characteristics;
         public List<SocialGroup> knowledgeBase;
-
+        public float minimalSalienceThreshold;
         private int numAdhocGroups;
 
         public struct ClusterMean
@@ -223,7 +223,7 @@ namespace DIMA_Sim.Model
 
         public void CalculateComparativeFit(Context currentContext, Simulation simulation)
         {
-            salience = 0.0f;
+            salience = minimalSalienceThreshold;
 
             foreach (var socialGroup in knowledgeBase)
             {
