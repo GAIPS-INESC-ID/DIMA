@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +23,13 @@ namespace DIMA_Sim.Model
             float minimalSalienceThreshold;
 
             var propertiesElement = xmlReader.Root.Element("properties");
-            normativeMatchDistance = float.Parse(propertiesElement.Element("normative_match_distance").Value.ToString());
-            distanceConstraint = float.Parse(propertiesElement.Element("distance_constraint").Value.ToString());
-            comparativeFitAlfa = float.Parse(propertiesElement.Element("comparative_fit_alfa").Value.ToString());
-            comparativeFitBeta = float.Parse(propertiesElement.Element("comparative_fit_beta").Value.ToString());
-            minimalSalienceThreshold = float.Parse(propertiesElement.Element("minimal_salience_threshold").Value.ToString());
+            normativeMatchDistance = float.Parse(propertiesElement.Element("normative_match_distance").Value.ToString(), CultureInfo.InvariantCulture);
+            distanceConstraint = float.Parse(propertiesElement.Element("distance_constraint").Value.ToString(),CultureInfo.InvariantCulture);
+            comparativeFitAlfa = float.Parse(propertiesElement.Element("comparative_fit_alfa").Value.ToString(), CultureInfo.InvariantCulture);
+            comparativeFitBeta = float.Parse(propertiesElement.Element("comparative_fit_beta").Value.ToString(),
+                CultureInfo.InvariantCulture);
+            minimalSalienceThreshold = float.Parse(propertiesElement.Element("minimal_salience_threshold").Value.ToString(),
+                CultureInfo.InvariantCulture);
             //
             agents = new List<Agent>();
 
@@ -44,7 +47,7 @@ namespace DIMA_Sim.Model
                     var characteristic = new Characteristic();
                     characteristic.name = subElement.Attribute("name").Value;
 
-                    agent.characteristics.Add(characteristic, float.Parse(subElement.Value));
+                    agent.characteristics.Add(characteristic, float.Parse(subElement.Value, CultureInfo.InvariantCulture));
                 }
 
                 foreach (var subElement in element.Element("knowledge_base").Elements("social_group"))
@@ -59,7 +62,7 @@ namespace DIMA_Sim.Model
                         var characteristic = new Characteristic();
                         characteristic.name = subEubElement.Attribute("name").Value;
 
-                        socialGroup.characteristics.Add(characteristic, float.Parse(subEubElement.Value));
+                        socialGroup.characteristics.Add(characteristic, float.Parse(subEubElement.Value, CultureInfo.InvariantCulture));
                     }
 
                     socialGroup.CalculateAccessibility(agent);

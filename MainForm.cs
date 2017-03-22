@@ -1,8 +1,6 @@
 ﻿using DIMA_Sim.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -21,12 +19,12 @@ namespace DIMA_Sim
         public MainForm()
         {
             InitializeComponent();
-            this.simulations = new List<Simulation>();
         }
 
         private List<Simulation> simulations;
-        private Simulation averageSimulation;
         private Context simulationContext;
+        private float[,,] averageSalience;
+        private float[,] averageWealth;
 
         private string LoadAgents(XDocument xmlReader)
         {
@@ -81,7 +79,7 @@ namespace DIMA_Sim
         delegate void ExportDelegate(string name, Func<Model.Agent.ExportData, string> dataExport);
         delegate void KbExportDelegate(Model.Agent agent, string name, Func<Model.Agent.KbExportData, string> dataExport);
 
-        private void Export(string filePath)
+        private void Export(string filePath, Simulation sim)
         {
             CultureInfo ci = new CultureInfo("pt-PT", false);
 
@@ -89,12 +87,12 @@ namespace DIMA_Sim
             var csv = new StringBuilder();
 
             csv.AppendFormat(ci, "sep=\t;\n");
-            csv.AppendFormat(ci, "alfa\t{0}\n", simulations.Last().comparativeFitAlfa);
-            csv.AppendFormat(ci, "beta\t{0}\n", simulations.Last().comparativeFitBeta);
-            csv.AppendFormat(ci, "distance constraint\t{0}\n", simulations.Last().distanceConstraint);
-            csv.AppendFormat(ci, "normative match distance\t{0}\n", simulations.Last().normativeMatchDistance);
+            csv.AppendFormat(ci, "alfa\t{0}\n", sim.comparativeFitAlfa);
+            csv.AppendFormat(ci, "beta\t{0}\n", sim.comparativeFitBeta);
+            csv.AppendFormat(ci, "distance constraint\t{0}\n", sim.distanceConstraint);
+            csv.AppendFormat(ci, "normative match distance\t{0}\n", sim.normativeMatchDistance);
 
-            csv.AppendFormat(ci, "total agents\t{0}\n", simulations.Last().agents.Count);
+            csv.AppendFormat(ci, "total agents\t{0}\n", sim.agents.Count);
 
             /*
             csv.Append("theme characteristics\t");
@@ -118,7 +116,7 @@ namespace DIMA_Sim
             csv.AppendLine();
 
             csv.Append("\t");
-            foreach (var agent in simulations.Last().agents)
+            foreach (var agent in sim.agents)
                 csv.AppendFormat(ci, "{0}\t", agent.name);
 
             csv.AppendLine();
@@ -126,7 +124,7 @@ namespace DIMA_Sim
             foreach (var characteristic in simulationContext.relevantCharacteristcs)
             {
                 csv.AppendFormat(ci, "characteristic '{0}'\t", characteristic.name);
-                foreach (var agent in simulations.Last().agents)
+                foreach (var agent in sim.agents)
                     csv.AppendFormat(ci, "{0}\t", agent.characteristics[characteristic]);
 
                 csv.AppendLine();
@@ -153,7 +151,7 @@ namespace DIMA_Sim
                     csv.Append(name + "\t");
                     csv.AppendLine();
 
-                    foreach (var agent in simulations.Last().agents)
+                    foreach (var agent in sim.agents)
                     {
                         csv.AppendFormat(ci, "{0}\t", agent.name);
 
@@ -231,7 +229,7 @@ namespace DIMA_Sim
                 csv.AppendLine();
             };
 
-            foreach (var agent in simulations.Last().agents)
+            foreach (var agent in sim.agents)
             {
                 csv.Append(agent.name + "\t");
                 csv.AppendLine();
@@ -261,7 +259,7 @@ namespace DIMA_Sim
             this.comboBox1.Items.Add("Characteristics");
             this.comboBox1.Items.Add("Wealth");
             this.comboBox1.Items.Add("Population");
-            for (int i = 0; i < simulations.Last().agents[0].clusterMeans.Count; i++)
+            for (int i = 0; i < sim.agents[0].clusterMeans.Count; i++)
             {
                 this.comboBox1.Items.Add("Group " + (i + 1));
             }
@@ -269,25 +267,25 @@ namespace DIMA_Sim
 
         private async void runButton_Click(object sender, EventArgs e)
         {
+            this.simulations = new List<Simulation>();
             textBoxOutputFile.Text = string.Empty;
             try
             {
-                var xmlReader = XDocument.Load(textBoxAgentsSource.Text);
-                for(int i = 0; i < numberOfRuns.Value; i++)
+                for (int i = 0; i < numberOfRuns.Value; i++)
                 {
+                    var xmlReader = XDocument.Load(textBoxAgentsSource.Text);
                     await Task.Run(() => LoadAgents(xmlReader));
                     xmlReader = XDocument.Load(textBoxContextSource.Text);
                     await Task.Run(() => RunContext(xmlReader, (int)numberOfSteps.Value));
                 }
-
+                DetermineAverages(simulations);
                 var filename = textBoxOutputFolder.Text + string.Format("\\output-{0:yyyy-MM-dd_hh-mm-ss}.csv", DateTime.Now);
-                Export(filename);
+                Export(filename, simulations.Last());
                 textBoxOutputFile.Text = "Output generated at '" + filename + "'";
                 this.comboBox1_SelectedIndexChanged(sender, e);
 
                 //add comboBox options
                 createComboBoxOptions(simulations.Last());
-
             }
             catch (Exception ex)
             {
@@ -424,8 +422,6 @@ namespace DIMA_Sim
                 series.Points.AddXY(x, y);
                 this.chart1.Series.Add(series);
             }*/
-
-
             this.chart1.Legends.Add(new Legend { Title = "Agent" });
             this.chart1.ChartAreas.Add(chartArea);
             this.chart1.Titles.Add(charTitle);
@@ -445,28 +441,31 @@ namespace DIMA_Sim
 
             var charTitle = new Title { Text = "Group " + groupNumber };
 
-            for (int i = 0; i < simulations.Last().agents.Count(); i++)
+            for (int a = 0; a < simulations.Last().agents.Count(); a++)
             {
                 var series = new Series
                 {
-                    Name = simulations.Last().agents[i].name,
-                    Color = Consts.COLORS[i],
+                    Name = simulations.Last().agents[a].name,
+                    Color = Consts.COLORS[a],
                     BorderWidth = 5,
                     MarkerSize = 10,
                     IsVisibleInLegend = true,
                     ChartType = SeriesChartType.Point
                 };
 
-                foreach (var data in simulations.Last().agents[i].exportData)
+                int s = 0;
+                foreach (var data in simulations.Last().agents[a].exportData)
                 {
                     if (groupNumber - 1 < data.kbData.Count)
                     {
-                        series.Points.AddY(data.kbData[groupNumber - 1].salience);
+                        //series.Points.AddY(data.kbData[groupNumber - 1].salience);
+                        series.Points.AddY(this.averageSalience[s,a,groupNumber-1]);
                     }
                     else
                     {
                         series.Points.AddY(0);
                     }
+                    s++;
                 }
 
                 this.chart1.Series.Add(series);
@@ -485,29 +484,32 @@ namespace DIMA_Sim
             var chartArea = new ChartArea
             {
                 AxisX = new Axis { Title = "Step" },
-                AxisY = new Axis { Title = "Wealth"},
+                AxisY = new Axis { Title = "Wealth" },
             };
 
-            var charTitle = new Title { Text = "Group Average Wealth"};
+            var charTitle = new Title { Text = "Group Average Wealth" };
 
             //Groups
             for (int i = 0; i < simulations.Last().agents[0].knowledgeBase.Count(); i++)
             {
                 var groupName = simulations.Last().agents[0].knowledgeBase[i].name;
                 var series = this.CreateSeries(groupName, Consts.COLORS[i]);
-                for(int s = 0; s < (int)numberOfSteps.Value; s++)
+                for (int s = 0; s < (int)numberOfSteps.Value; s++)
                 {
                     var wealth = 0f;
                     int numOfAgents = 0;
-                    foreach(var agent in simulations.Last().agents)
+                    int a = 0;
+                    foreach (var agent in simulations.Last().agents)
                     {
-                        if(agent.exportData[s].group.name == groupName)
+                        if (agent.exportData[s].group.name == groupName)
                         {
-                            wealth += agent.exportData[s].wealth;
-                            numOfAgents++;
-                        }   
+                           wealth += this.averageWealth[s, a];
+                           numOfAgents++;
+                        }
+                        a++;
                     }
                     series.Points.Add(wealth / numOfAgents);
+                    
                 }
                 this.chart1.Series.Add(series);
             }
@@ -524,35 +526,37 @@ namespace DIMA_Sim
             var chartArea = new ChartArea
             {
                 AxisX = new Axis { Title = "Step" },
-                AxisY = new Axis { Title = "Population" },
+                AxisY = new Axis { Title = "Number Of Agents" },
             };
 
-            var charTitle = new Title { Text = "Population Size Per Group" };
+            var charTitle = new Title { Text = "Most Salient Identity" };
 
             //Groups
-            for (int i = 0; i < simulations.Last().agents[0].knowledgeBase.Count(); i++)
+            for (int g = 0; g < simulations.Last().agents[0].knowledgeBase.Count(); g++)
             {
-                var groupName = simulations.Last().agents[0].knowledgeBase[i].name;
-                var series = this.CreateSeries(groupName, Consts.COLORS[i]);
+                var groupName = simulations.Last().agents[0].knowledgeBase[g].name;
+                var series = this.CreateSeries(groupName, Consts.COLORS[g]);
                 series.ChartType = SeriesChartType.Line;
                 for (int s = 0; s < (int)numberOfSteps.Value; s++)
                 {
                     int numOfAgents = 0;
+                    int a = 0;
                     foreach (var agent in simulations.Last().agents)
                     {
-                        if (agent.exportData[s].group.name == groupName && agent.exportData[s].salience > agent.minimalSalienceThreshold)
+                        if (agent.exportData[s].group.name == groupName && 
+                            this.averageSalience[s,a,g] > agent.minimalSalienceThreshold)
                         {
                             numOfAgents++;
                         }
+                        a++;
                     }
                     series.Points.Add(numOfAgents);
                 }
                 this.chart1.Series.Add(series);
-
             }
             //Add the no-group
-            var noGroupseries = this.CreateSeries("No Group", Consts.COLORS[6]);
-        //    var noGroupseries = this.CreateSeries("No Group", Consts.COLORS[6]);
+
+            //    var noGroupseries = this.CreateSeries("No Group", Consts.COLORS[6]);
 
             this.chart1.Legends.Add(new Legend { Title = "Group" });
             this.chart1.ChartAreas.Add(chartArea);
@@ -642,7 +646,40 @@ namespace DIMA_Sim
 
         }
 
-        
+
+        public void DetermineAverages(List<Simulation> simulations)
+        {
+            var numOfAgents = simulations.Last().agents.Count;
+            var numOfGroups = simulations.Last().agents[0].knowledgeBase.Count();
+
+            this.averageSalience = new float[(int)numberOfSteps.Value, numOfAgents, numOfGroups];
+            this.averageWealth = new float[(int)numberOfSteps.Value, numOfAgents];
+
+            for (int a = 0; a < simulations.Last().agents.Count; a++)
+            {
+                for (int i = 0; i < numberOfSteps.Value; i++)
+                {
+                    
+                    float sumWealth = 0;
+                    foreach (var sim in simulations)
+                    {
+                        sumWealth += sim.agents[a].exportData[i].wealth;
+                    }
+                    averageWealth[i, a] = sumWealth / simulations.Count;
+
+                    for (int g = 0; g < numOfGroups; g++)
+                    {
+                        float sumSalience = 0;
+                        foreach (var sim in simulations)
+                        {
+                            sumSalience += sim.agents[a].exportData[i].kbData[g].salience;
+                        }
+                        averageSalience[i, a, g] = sumSalience / simulations.Count;
+                    }
+                }
+            }
+
+        }
 
         private void chart1_Click(object sender, EventArgs e)
         {
