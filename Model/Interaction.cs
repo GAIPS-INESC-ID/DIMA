@@ -29,6 +29,7 @@ namespace DIMA_Sim.Model
             if(agent.salience < agent.minimalSalienceThreshold)
             {
                 otherRandomAgent.wealth += fairOffer;
+                agent.wealth += currentContext.wealthIncrement - fairOffer;
             }
 
             float groupBias = (int)Math.Ceiling(fairOffer * agent.salience);
@@ -36,13 +37,13 @@ namespace DIMA_Sim.Model
             {
                 var otherOffer = fairOffer + groupBias;
                 otherRandomAgent.wealth += otherOffer;
-                //agent.wealth += currentContext.wealthIncrement - otherOffer;
+                agent.wealth += currentContext.wealthIncrement - otherOffer;
             }
             else if (otherRandomAgent.selfGroup?.name != agent.selfGroup?.name)
             {
                 var otherOffer = fairOffer - groupBias;
                 otherRandomAgent.wealth += otherOffer;
-                //agent.wealth += currentContext.wealthIncrement - otherOffer;
+                agent.wealth += currentContext.wealthIncrement - otherOffer;
             }
             return updateFactor;
         }
