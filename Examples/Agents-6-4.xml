@@ -8,13 +8,13 @@
       </knowledge_base>
     </agent>
     <agent name="Ben">
-      <characteristic name="Intelligence">90</characteristic>
+      <characteristic name="Intelligence">70</characteristic>
       <characteristic name="Charisma">12</characteristic>
       <knowledge_base>
       </knowledge_base>
     </agent>
     <agent name="Cara">
-      <characteristic name="Intelligence">88</characteristic>
+      <characteristic name="Intelligence">94</characteristic>
       <characteristic name="Charisma">15</characteristic>
       <knowledge_base>
       </knowledge_base>
@@ -56,7 +56,7 @@
       </knowledge_base>
     </agent>
     <agent name="Jane">
-      <characteristic name="Intelligence">21</characteristic>
+      <characteristic name="Intelligence">19</characteristic>
       <characteristic name="Charisma">93</characteristic>
       <knowledge_base>
       </knowledge_base>

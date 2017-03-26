@@ -25,6 +25,8 @@ namespace DIMA_Sim
         private Context simulationContext;
         private float[,,] averageSalience;
         private float[,] averageWealth;
+        private float[,] averageDonations;
+        private float[,] averageOffers;
 
         private string LoadAgents(XDocument xmlReader)
         {
@@ -177,6 +179,8 @@ namespace DIMA_Sim
             varExport("accessibility", dataExport => dataExport.accessibility.ToString());
             varExport("salience", dataExport => dataExport.salience.ToString());
             varExport("wealth", dataExport => dataExport.wealth.ToString());
+            varExport("offers", dataExport => dataExport.donations.ToString());
+            varExport("donations", dataExport => dataExport.donations.ToString());
 
             KbExportDelegate kbExport = (agent, name, dataExport) =>
             {
@@ -259,6 +263,8 @@ namespace DIMA_Sim
             this.comboBox1.Items.Add("Characteristics");
             this.comboBox1.Items.Add("Wealth");
             this.comboBox1.Items.Add("Population");
+            this.comboBox1.Items.Add("Offers");
+            this.comboBox1.Items.Add("Donations Received");
             for (int i = 0; i < sim.agents[0].clusterMeans.Count; i++)
             {
                 this.comboBox1.Items.Add("Group " + (i + 1));
@@ -392,7 +398,7 @@ namespace DIMA_Sim
                 var series = new Series
                 {
                     Name = "Cluster " + (i + 1),
-                    Color = Consts.COLORS[i],
+                    Color = Consts.COLORS[9 - i],
                     BorderWidth = 5,
                     MarkerSize = 10,
                     IsVisibleInLegend = true,
@@ -510,6 +516,91 @@ namespace DIMA_Sim
                     }
                     series.Points.Add(wealth / numOfAgents);
                     
+                }
+                this.chart1.Series.Add(series);
+            }
+
+            this.chart1.Legends.Add(new Legend { Title = "Group" });
+            this.chart1.ChartAreas.Add(chartArea);
+            this.chart1.Titles.Add(charTitle);
+        }
+
+
+        private void DisplayOffersGroupChart()
+        {
+            ClearChart();
+
+            var chartArea = new ChartArea
+            {
+                AxisX = new Axis { Title = "Step" },
+                AxisY = new Axis { Title = "Offers Given" },
+            };
+
+            var charTitle = new Title { Text = "Group Average Offers Given" };
+
+            //Groups
+            for (int i = 0; i < simulations.Last().agents[0].knowledgeBase.Count(); i++)
+            {
+                var groupName = simulations.Last().agents[0].knowledgeBase[i].name;
+                var series = this.CreateSeries(groupName, Consts.COLORS[i]);
+                for (int s = 0; s < (int)numberOfSteps.Value; s++)
+                {
+                    var offers = 0f;
+                    int numOfAgents = 0;
+                    int a = 0;
+                    foreach (var agent in simulations.Last().agents)
+                    {
+                        if (agent.exportData[s].group.name == groupName)
+                        {
+                            offers += this.averageOffers[s, a];
+                            numOfAgents++;
+                        }
+                        a++;
+                    }
+                    series.Points.Add(offers / numOfAgents);
+
+                }
+                this.chart1.Series.Add(series);
+            }
+
+            this.chart1.Legends.Add(new Legend { Title = "Group" });
+            this.chart1.ChartAreas.Add(chartArea);
+            this.chart1.Titles.Add(charTitle);
+        }
+
+        private void DisplayDonationsGroupChart()
+        {
+            ClearChart();
+
+            var chartArea = new ChartArea
+            {
+                AxisX = new Axis { Title = "Step" },
+                AxisY = new Axis { Title = "Donations Received" },
+            };
+
+            var charTitle = new Title { Text = "Group Average Donations Received" };
+
+            //Groups
+            for (int i = 0; i < simulations.Last().agents[0].knowledgeBase.Count(); i++)
+            {
+                var groupName = simulations.Last().agents[0].knowledgeBase[i].name;
+                var series = this.CreateSeries(groupName, Consts.COLORS[i]);
+                for (int s = 0; s < (int)numberOfSteps.Value; s++)
+                {
+                    var donations = 0f;
+                    int numOfAgents = 0;
+                    int a = 0;
+                    foreach (var agent in simulations.Last().agents)
+                    {
+                        if (agent.exportData[s].group.name == groupName)
+                        {
+                            donations += this.averageDonations[s, a];
+                            numOfAgents++;
+                        }
+                        a++;
+                    }
+                    series.Points.Add(donations / numOfAgents);
+
                 }
                 this.chart1.Series.Add(series);
             }
@@ -637,6 +728,14 @@ namespace DIMA_Sim
                     {
                         DisplayWealthGroupChart();
                     }
+                    if (comboBox1.SelectedItem.ToString().Contains("Offers"))
+                    {
+                        DisplayOffersGroupChart();
+                    }
+                    if (comboBox1.SelectedItem.ToString().Contains("Donations Received"))
+                    {
+                        DisplayDonationsGroupChart();
+                    }
                 }
             }
             catch (Exception ex)
@@ -654,6 +753,8 @@ namespace DIMA_Sim
 
             this.averageSalience = new float[(int)numberOfSteps.Value, numOfAgents, numOfGroups];
             this.averageWealth = new float[(int)numberOfSteps.Value, numOfAgents];
+            this.averageOffers = new float[(int)numberOfSteps.Value, numOfAgents];
+            this.averageDonations = new float[(int)numberOfSteps.Value, numOfAgents];
 
             for (int a = 0; a < simulations.Last().agents.Count; a++)
             {
@@ -666,6 +767,21 @@ namespace DIMA_Sim
                         sumWealth += sim.agents[a].exportData[i].wealth;
                     }
                     averageWealth[i, a] = sumWealth / simulations.Count;
+
+                    float sumOffer = 0;
+                    foreach (var sim in simulations)
+                    {
+                        sumOffer += sim.agents[a].exportData[i].offers;
+                    }
+                    averageOffers[i, a] = sumOffer / simulations.Count;
+
+                    float sumDonation = 0;
+                    foreach (var sim in simulations)
+                    {
+                        sumDonation += sim.agents[a].exportData[i].donations;
+                    }
+                    averageDonations[i, a] = sumDonation / simulations.Count;
+
 
                     for (int g = 0; g < numOfGroups; g++)
                     {

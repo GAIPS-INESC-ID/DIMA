@@ -10,6 +10,8 @@ namespace DIMA_Sim.Model
     {
         public string name;
         public float wealth;
+        public float offers;
+        public float donations;
         public Dictionary<Characteristic, float> characteristics;
         public List<SocialGroup> knowledgeBase;
         public float minimalSalienceThreshold;
@@ -65,6 +67,8 @@ namespace DIMA_Sim.Model
             public float accessibility;
             public float salience;
             public float wealth;
+            public float offers;
+            public float donations;
             public List<KbExportData> kbData;
         }
 
@@ -86,6 +90,8 @@ namespace DIMA_Sim.Model
             data.comparativeFit = comparativeFit;
             data.salience = salience;
             data.wealth = wealth;
+            data.offers = offers;
+            data.donations = donations;
             data.accessibility = (selfGroup != null) ? selfGroup.accessibility : 0.0f;
 
             data.kbData = new List<KbExportData>();
@@ -113,6 +119,8 @@ namespace DIMA_Sim.Model
             data.salience = 0.0f;
             data.accessibility = 0.0f;
             data.wealth = 0.0f;
+            data.offers = 0.0f;
+            data.donations = 0.0f;
             data.kbData = new List<KbExportData>();
 
             foreach (var group in knowledgeBase)

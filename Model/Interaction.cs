@@ -29,6 +29,8 @@ namespace DIMA_Sim.Model
             if(agent.salience < agent.minimalSalienceThreshold)
             {
                 otherRandomAgent.wealth += fairOffer;
+                otherRandomAgent.donations += fairOffer;
+                agent.offers += fairOffer;
                 agent.wealth += currentContext.wealthIncrement - fairOffer;
             }
 
@@ -36,12 +38,16 @@ namespace DIMA_Sim.Model
             if (otherRandomAgent.selfGroup?.name == agent.selfGroup?.name)
             {
                 var otherOffer = fairOffer + groupBias;
+                otherRandomAgent.donations += otherOffer;
+                agent.offers += otherOffer;
                 otherRandomAgent.wealth += otherOffer;
                 agent.wealth += currentContext.wealthIncrement - otherOffer;
             }
             else if (otherRandomAgent.selfGroup?.name != agent.selfGroup?.name)
             {
                 var otherOffer = fairOffer - groupBias;
+                otherRandomAgent.donations += otherOffer;
+                agent.offers += otherOffer;
                 otherRandomAgent.wealth += otherOffer;
                 agent.wealth += currentContext.wealthIncrement - otherOffer;
             }
